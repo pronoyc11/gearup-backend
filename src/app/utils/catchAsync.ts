@@ -1,4 +1,5 @@
 import type { NextFunction, Request, RequestHandler, Response } from "express";
+import { sendResponse } from "./sendResponse";
 
 
 
@@ -10,11 +11,11 @@ export const catchAsync = (fn: RequestHandler) => {
 
         } catch (error: any) {
 
-            res.status(500).json({
+            sendResponse(res, {
                 success: false,
+                statusCode: 400,
                 message: error.message,
-                error: error,
-                pattern: "This is commone error response"
+                error: error
             })
         }
     }

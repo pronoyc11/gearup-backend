@@ -9,9 +9,9 @@ model Gear {
     brand          String?          @db.VarChar(255)
     pricePerDay    Decimal          @db.Decimal(10, 2)
     stock          Int
-    specifications String           @db.Text
+    specifications Json             @db.JsonB
     availability   GearAvailability @default(AVAILABLE)
-    image          String           @db.Text
+    image          String?          @db.Text
     createdAt      DateTime         @default(now())
     updatedAt      DateTime         @updatedAt
 

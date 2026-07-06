@@ -3,6 +3,8 @@ import { authRouter } from "./app/modules/auth/auth.route";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { userRouter } from "./app/modules/user/user.route";
+import { categoryRouter } from "./app/modules/category/category.route";
+import { gearRouter } from "./app/modules/gear/gear.route";
 
 const app = express();
 
@@ -13,5 +15,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/category", categoryRouter);
+app.use("/api/gear", gearRouter)
 
 export default app;
