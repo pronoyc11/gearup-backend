@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import { userRouter } from "./app/modules/user/user.route";
 import { categoryRouter } from "./app/modules/category/category.route";
 import { gearRouter } from "./app/modules/gear/gear.route";
+import { rentalCustomerRouter } from "./app/modules/rentals/rentalCustomer/rentalCustomer.route";
+import { rentalProviderRouter } from "./app/modules/rentals/rentalProvider/rentalProvider.route";
 
 const app = express();
 
@@ -17,5 +19,6 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/gear", gearRouter)
-
+app.use("/api/rental/customer", rentalCustomerRouter);
+app.use("/api/rental/provider", rentalProviderRouter);
 export default app;
