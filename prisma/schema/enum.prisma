@@ -21,6 +21,7 @@ enum RentalStatus {
   PAID
   PICKED_UP
   RETURNED
+  LATE_RETURN
   CANCELLED
 }
 

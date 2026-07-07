@@ -9,7 +9,7 @@ router.post("/", auth(UserRole.PROVIDER), gearController.createGearItem);
 router.get("/", gearController.getAllGearItems);
 router.get("/:gearId", gearController.getSingleGearById);
 //PATCH
-router.patch("/:gearId", auth(UserRole.PROVIDER), gearController.updateGear);
+router.patch("/:gearId", auth(UserRole.PROVIDER, UserRole.ADMIN), gearController.updateGear);
 
 //!DELETE 
 
