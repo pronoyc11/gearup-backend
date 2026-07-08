@@ -7,6 +7,7 @@ import { categoryRouter } from "./app/modules/category/category.route";
 import { gearRouter } from "./app/modules/gear/gear.route";
 import { rentalCustomerRouter } from "./app/modules/rentals/rentalCustomer/rentalCustomer.route";
 import { rentalProviderRouter } from "./app/modules/rentals/rentalProvider/rentalProvider.route";
+import { paymentRouter } from "./app/modules/payment/payment.route";
 
 const app = express();
 
@@ -21,4 +22,7 @@ app.use("/api/category", categoryRouter);
 app.use("/api/gear", gearRouter)
 app.use("/api/rental/customer", rentalCustomerRouter);
 app.use("/api/rental/provider", rentalProviderRouter);
+
+//!Payment Routes
+app.use("/api/payment", paymentRouter);
 export default app;

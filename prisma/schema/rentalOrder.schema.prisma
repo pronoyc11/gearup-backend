@@ -9,6 +9,9 @@ model RentalOrder {
     startDate   DateTime
     endDate     DateTime
     status      RentalStatus
+    payment     Payment?
     createdAt   DateTime     @default(now())
     updatedAt   DateTime     @updatedAt
+
+    @@map("rentalOrders")
 }
