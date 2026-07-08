@@ -27,13 +27,41 @@ const createReview = async (customerId: string, payload: IReview) => {
     if (rental.gearId !== gearId) {
         throw new Error("Uh oh, This is not the item you rented!")
     }
-
+    if (rating > 5 || rating < 1) {
+        throw new Error("You can only rate out of 5.");
+    }
     const createdReview = await prisma.review.create({
-        data:{
+        data: {
             customerId,
-            ...payload,
-            comment:comment?? null
+            ...payload
         }
-    })
+    });
 
+    return createdReview;
+
+
+}
+
+const getAllReviews = async (gearId: string) => {
+
+    const getAllReviews = await prisma.review.findMany({
+        where: {
+            gearId
+        },
+        include: {
+            customer: {
+                select: {
+                    name: true
+                }
+            }
+
+        }
+    });
+
+    return getAllReviews;
+}
+
+export const reviewService = {
+    createReview,
+    getAllReviews
 }

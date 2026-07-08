@@ -9,6 +9,7 @@ import { rentalCustomerRouter } from "./app/modules/rentals/rentalCustomer/renta
 import { rentalProviderRouter } from "./app/modules/rentals/rentalProvider/rentalProvider.route";
 import { paymentRouter } from "./app/modules/payment/payment.route";
 import { reviewRouter } from "./app/modules/reviews/reviews.route";
+import { adminRouter } from "./app/modules/admin/admin.route";
 
 const app = express();
 
@@ -31,4 +32,7 @@ app.use("/api/payment", paymentRouter);
 
 //Review Router
 app.use("/api/review", reviewRouter);
+
+//!Admin router
+app.use("/api/admin",adminRouter);
 export default app;

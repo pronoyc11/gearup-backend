@@ -8,4 +8,6 @@ const router = Router();
 router.post("/", auth(UserRole.CUSTOMER, UserRole.ADMIN), rentalController.createRentalOrder);
 router.get("/", auth(UserRole.CUSTOMER, UserRole.ADMIN), rentalController.seeMyRentals);
 
+// !TO add, customer should be able to cancle order after being placed only
+
 export const rentalCustomerRouter = router;

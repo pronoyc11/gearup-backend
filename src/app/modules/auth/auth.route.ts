@@ -1,8 +1,5 @@
-import { Router, type NextFunction, type Request, type Response } from "express";
+import { Router } from "express";
 import { authController } from "./auth.controller";
-import jwt from "jsonwebtoken";
-import config from "../../config";
-import { verifyToken } from "../../utils/jwtUtils";
 const router = Router();
 
 
