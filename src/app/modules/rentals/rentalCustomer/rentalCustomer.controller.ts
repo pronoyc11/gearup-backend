@@ -31,8 +31,19 @@ const seeMyRentals = catchAsync(async (req: Request, res: Response, next: NextFu
         data: myRentals
     })
 })
-
+const cancelOrder = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.user?.id;
+    const orderId = req.params.orderId;
+    const myRentals = await rentalCustomerService.cancelOrder(id as string, orderId as string, req.body);
+    sendResponse(res, {
+        success: true,
+        statusCode: 200,
+        message: "Rental Orders updated successfully",
+        data: myRentals
+    })
+})
 export const rentalController = {
     createRentalOrder,
-    seeMyRentals
+    seeMyRentals,
+    cancelOrder
 }

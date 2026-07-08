@@ -81,8 +81,36 @@ const seeMyRentals = async (customerId: string) => {
     return myRentals;
 }
 
+const cancelOrder = async (customerId: string, orderId: string, payload: { status: RentalStatus }) => {
+    const rentalOrderExists = await prisma.rentalOrder.findUnique({
+        where: {
+            id: orderId
+        }
+    })
+    if (!rentalOrderExists) {
+        throw new Error("No order exists with this id.");
+    }
+    if (rentalOrderExists.customerId !== customerId) {
+        throw new Error("Uh oh, You don't own this order")
+    }
+    if (rentalOrderExists.status !== "PLACED") {
+        throw new Error("You can only cancel the order after it being placed");
+    }
 
+
+    const cancelOrder = await prisma.rentalOrder.update({
+        where: {
+            id: rentalOrderExists.id
+        },
+        data: {
+            ...payload
+        }
+    })
+
+    return cancelOrder;
+}
 export const rentalCustomerService = {
     createRentalOrder,
-    seeMyRentals
+    seeMyRentals,
+    cancelOrder
 }

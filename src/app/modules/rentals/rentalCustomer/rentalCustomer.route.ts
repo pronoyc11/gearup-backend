@@ -9,5 +9,5 @@ router.post("/", auth(UserRole.CUSTOMER, UserRole.ADMIN), rentalController.creat
 router.get("/", auth(UserRole.CUSTOMER, UserRole.ADMIN), rentalController.seeMyRentals);
 
 // !TO add, customer should be able to cancle order after being placed only
-
+router.patch("/cancel/:orderId", auth(UserRole.CUSTOMER), rentalController.cancelOrder)
 export const rentalCustomerRouter = router;
