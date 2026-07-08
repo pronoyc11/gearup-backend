@@ -3,6 +3,7 @@ import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { paymentService } from "./payment.service";
 import config from "../../config";
+import type { UserRole } from "../../../../prisma/generated/prisma/enums";
 
 
 const checkOut = catchAsync(async (req: Request, res: Response
@@ -38,7 +39,9 @@ const handleWebhook = catchAsync(async (req: Request, res: Response, next: NextF
 })
 
 const viewOwnPayment = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const result = await paymentService.viewOwnPayment(req.user?.id as string);
+
+    const isAdmin = req.user?.role === 'ADMIN';
+    const result = await paymentService.viewOwnPayment(req.user?.id as string, isAdmin);
 
     sendResponse(res, {
         success: true,
@@ -48,8 +51,21 @@ const viewOwnPayment = catchAsync(async (req: Request, res: Response, next: Next
     })
 
 })
+const getPaymentDetails = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const result = await paymentService.getPaymentDetails(req.params.paymentId as string, req.user?.id as string);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: 200,
+        message: "payment details retrieved successfully",
+        data: result
+    })
+
+})
+
 export const paymentController = {
     checkOut,
     handleWebhook,
-    viewOwnPayment
+    viewOwnPayment,
+    getPaymentDetails
 }

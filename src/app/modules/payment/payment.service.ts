@@ -22,9 +22,10 @@ const createCheckoutSession = async (rentalOrderId: string, userId: string) => {
         if (rentalOrderExists.customerId !== userId) {
             throw new Error("Not your order");
         }
-        if (rentalOrderExists.status != "CONFIRMED") {
+        if (rentalOrderExists.status !== "CONFIRMED") {
             throw new Error("Rental must be confirmed before payment.");
         }
+
 
         const alreadyPaid = await tx.payment.findUnique({
             where: {
@@ -111,12 +112,35 @@ const handleWebhook = async (payload: Buffer, signature: string, webhookSecret: 
 }
 
 
-const viewOwnPayment = async (customerId: string) => {
-    const myPayments = await prisma.payment.findMany({
-        where: {
-            order: {
-                customerId
+const viewOwnPayment = async (customerId: string, isAdmin: boolean) => {
+    let myPayments;
+
+    if (isAdmin) {
+        myPayments = await prisma.payment.findMany();
+    } else {
+        myPayments = await prisma.payment.findMany({
+            where: {
+                order: {
+                    customerId
+                }
+            },
+            include: {
+                order: {
+                    include: {
+                        gear: true
+                    }
+                }
             }
+        });
+    }
+
+    return myPayments;
+}
+
+const getPaymentDetails = async (paymentId: string, userId: string) => {
+    const paymentExist = await prisma.payment.findUnique({
+        where: {
+            id: paymentId
         },
         include: {
             order: {
@@ -126,22 +150,18 @@ const viewOwnPayment = async (customerId: string) => {
             }
         }
     });
+    if (!paymentExist) {
+        throw new Error("No such payments exist on this ID");
+    }
+    if (paymentExist.order.customerId !== userId) {
+        throw new Error("This payment ID does not belong to any of yours.");
+    }
+    return paymentExist;
 
-    return myPayments;
-}
-
-const getPaymentDetails = async (paymentId: string) => {
-    const paymentExist = await prisma.payment.findUnique({
-        where: {
-            id: paymentId
-        },
-        include: {
-            order: true
-        }
-    })
 }
 export const paymentService = {
     createCheckoutSession,
     handleWebhook,
-    viewOwnPayment
+    viewOwnPayment,
+    getPaymentDetails
 }

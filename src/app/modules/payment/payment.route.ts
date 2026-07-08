@@ -5,9 +5,12 @@ import { UserRole } from "../../../../prisma/generated/prisma/enums";
 
 const router = Router();
 
-router.post("/create-session", auth(UserRole.CUSTOMER), paymentController.checkOut);
+router.post("/create-session", auth(UserRole.CUSTOMER,UserRole.ADMIN), paymentController.checkOut);
 
 router.post("/webhook", paymentController.handleWebhook);
 
-router.get("/", paymentController.viewOwnPayment);
+router.get("/",auth(UserRole.ADMIN,UserRole.CUSTOMER),paymentController.viewOwnPayment);
+
+router.get("/:paymentId", auth(UserRole.CUSTOMER,UserRole.ADMIN), paymentController.getPaymentDetails)
+
 export const paymentRouter = router;
