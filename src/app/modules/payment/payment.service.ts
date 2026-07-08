@@ -79,7 +79,8 @@ const createCheckoutSession = async (rentalOrderId: string, userId: string) => {
                 data: {
                     orderId: rentalOrderExists.id,
                     amount: rentalOrderExists.totalAmount,
-                    status: PaymentStatus.PENDING
+                    status: PaymentStatus.PENDING,
+                    transactionId: session.id
                 }
             })
         }

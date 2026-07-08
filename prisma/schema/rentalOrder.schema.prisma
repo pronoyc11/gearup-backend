@@ -10,6 +10,7 @@ model RentalOrder {
     endDate     DateTime
     status      RentalStatus
     payment     Payment?
+    review      Review?
     createdAt   DateTime     @default(now())
     updatedAt   DateTime     @updatedAt
 

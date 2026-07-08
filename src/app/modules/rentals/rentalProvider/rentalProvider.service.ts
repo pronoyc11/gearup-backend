@@ -11,6 +11,11 @@ const viewProviderRentals = async (providerId: string) => {
             gear: {
                 providerId
             }
+        },
+        include: {
+            customer: true,
+            gear: true,
+            payment: true
         }
     });
 
@@ -42,6 +47,9 @@ const updateRentalOrderStatus = async (orderId: string, providerId: string, payl
         }
         if (!payload) {
             throw new Error("Prefered status is required!");
+        }
+        if (payload.status === 'PAID') {
+            throw new Error("Sorry, You can't manually set the PAID status.")
         }
         if (!validateRentalStatusTransition(rentalOrderExists.status, payload.status)) {
             throw new Error(`Can't change the order status from ${rentalOrderExists.status} to ${payload.status}`);
