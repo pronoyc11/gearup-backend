@@ -11,9 +11,10 @@ model Review {
     rentalOrder   RentalOrder @relation(fields: [rentalOrderId], references: [id], onDelete: Cascade)
 
     rating  Int
-    comment String
+    comment String?
 
     createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@index([gearId])
     @@map("reviews")
