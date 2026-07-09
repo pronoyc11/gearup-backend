@@ -21,6 +21,11 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
+app.get("/", (req: Request, res: Response) => {
+    res.status(200).json({
+        message: "Welcome to gear up backend"
+    })
+})
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
