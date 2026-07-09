@@ -26,6 +26,9 @@ const createReview = async (customerId: string, payload: IReview) => {
     if (rental.customerId !== customerId) {
         throw new Error("You don't own this rental!")
     }
+    if (rental.status !== 'RETURNED') {
+        throw new Error("You have to return the product first, Then review.")
+    }
     if (rental.gearId !== gearId) {
         throw new Error("Uh oh, This is not the item you rented!")
     }
