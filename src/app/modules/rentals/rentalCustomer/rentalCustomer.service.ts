@@ -81,7 +81,7 @@ const seeMyRentals = async (customerId: string) => {
     return myRentals;
 }
 
-const cancelOrder = async (customerId: string, orderId: string, payload: { status: RentalStatus }) => {
+const cancelOrder = async (customerId: string, orderId: string) => {
     const rentalOrderExists = await prisma.rentalOrder.findUnique({
         where: {
             id: orderId
@@ -98,12 +98,14 @@ const cancelOrder = async (customerId: string, orderId: string, payload: { statu
     }
 
 
+
+
     const cancelOrder = await prisma.rentalOrder.update({
         where: {
             id: rentalOrderExists.id
         },
         data: {
-            ...payload
+            status: RentalStatus.CANCELLED
         }
     })
 
