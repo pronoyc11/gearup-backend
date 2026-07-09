@@ -19,7 +19,9 @@ const fetchSingleUser = async (userId: string) => {
             password: true
         }
     });
-
+    if (!user) {
+        throw new Error("No user found on this id!");
+    }
     return user;
 }
 const fetchAllGears = async () => {
