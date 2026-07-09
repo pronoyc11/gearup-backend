@@ -4,14 +4,16 @@ import type { IReview } from "./review.interface";
 
 
 const createReview = async (customerId: string, payload: IReview) => {
-
+    if (!payload) {
+        throw new Error("Must provide payload!");
+    }
     const { gearId,
         rentalOrderId,
         rating,
         comment, } = payload;
 
     if (!rating || !gearId || !rentalOrderId) {
-        throw new Error("This fields are required!");
+        throw new Error("Some required fields are missing!");
     }
     const rental = await prisma.rentalOrder.findUnique({
         where: {
@@ -58,6 +60,9 @@ const getAllReviews = async (gearId: string) => {
         }
     });
 
+    if (getAllReviews.length === 0) {
+        throw new Error("No reviews yet.");
+    }
     return getAllReviews;
 }
 

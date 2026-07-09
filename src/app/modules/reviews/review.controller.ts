@@ -8,12 +8,13 @@ import { sendResponse } from "../../utils/sendResponse";
 const createReview = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
     const customerId = req.user?.id;
+    
     const result = await reviewService.createReview(customerId as string, req.body)
 
     sendResponse(res, {
         success: true,
         statusCode: 200,
-        message: "Review creted successfully",
+        message: "Review created successfully",
         data: result
     })
 })
