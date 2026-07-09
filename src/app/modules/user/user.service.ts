@@ -33,6 +33,9 @@ const updateMyProfile = async (userId: string, payload: IUpdateUser) => {
         },
         data: {
             ...payload
+        },
+        omit: {
+            password: true
         }
     })
     return updatedUser;
