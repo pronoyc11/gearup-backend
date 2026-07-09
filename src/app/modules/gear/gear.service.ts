@@ -80,7 +80,7 @@ const createGearItem = async (providerId: string, payload: IgearItem) => {
 
 
 const getAllGearItems = async (query: IGearQuery) => {
-    const limit = query.limit ? Number(query.limit) : 2;
+    const limit = query.limit ? Number(query.limit) : 5;
     const skip = query.page ? (Number(query.page) - 1) * Number(limit) : 0;
     const orderTerm = query.sortBy ? query.sortBy : "createdAt";
     const sortOrder = query.sortOrder ? query.sortOrder : "asc";
