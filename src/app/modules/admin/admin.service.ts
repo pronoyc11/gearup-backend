@@ -24,12 +24,20 @@ const fetchSingleUser = async (userId: string) => {
     }
     return user;
 }
-const fetchAllGears = async () => {
-    const allGears = await prisma.gear.findMany();
+const fetchAllGears = async (query: { limit?: string, page?: string }) => {
+
+    const take = Number(query.limit) || 10;
+    const skip = query.page ? (Number(query.page) - 1) * Number(query.limit) : 0;
+    const allGears = await prisma.gear.findMany({
+        take,
+        skip
+    });
 
     return allGears;
 }
-const fetchAllRentals = async () => {
+const fetchAllRentals = async (query: { limit?: string, page?: string }) => {
+    const take = Number(query.limit) || 10;
+    const skip = query.page ? (Number(query.page) - 1) * Number(query.limit) : 0;
     const allRentals = await prisma.rentalOrder.findMany({
         include: {
             customer: {
@@ -39,7 +47,9 @@ const fetchAllRentals = async () => {
             },
             gear: true,
             payment: true
-        }
+        },
+        take,
+        skip
     });
 
     return allRentals;

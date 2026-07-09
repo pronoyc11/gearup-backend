@@ -30,7 +30,9 @@ const fetchSingleUser = catchAsync(async (req: Request, res: Response, next: Nex
 })
 
 const fetchAllGears = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const result = await adminService.fetchAllGears();
+
+    const query = req.query;
+    const result = await adminService.fetchAllGears(query);
 
 
     sendResponse(res, {
@@ -41,7 +43,8 @@ const fetchAllGears = catchAsync(async (req: Request, res: Response, next: NextF
     })
 })
 const fetchAllRentals = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const result = await adminService.fetchAllRentals();
+    const query = req.query;
+    const result = await adminService.fetchAllRentals(query);
 
 
     sendResponse(res, {
