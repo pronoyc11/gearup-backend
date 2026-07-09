@@ -18,6 +18,30 @@ const getMyProfile = catchAsync(async (req: Request, res: Response, next: NextFu
     })
 })
 
+const updateMyProfile = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.user?.id;
+    const profile = await userService.updateMyProfile(id as string, req.body);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: 200,
+        message: "Profile updated.",
+        data: profile
+    })
+})
+const deleteMyProfile = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.user?.id;
+    const profile = await userService.deleteMyProfile(id as string);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: 200,
+        message: "Profile deleted.",
+        data: profile
+    })
+})
 export const userController = {
-    getMyProfile
+    getMyProfile,
+    updateMyProfile,
+    deleteMyProfile
 }
