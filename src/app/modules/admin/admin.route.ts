@@ -11,5 +11,7 @@ router.get("/users/:userId", auth(UserRole.ADMIN), adminController.fetchSingleUs
 router.get("/gear", auth(UserRole.ADMIN), adminController.fetchAllGears);
 router.get("/rentals", auth(UserRole.ADMIN), adminController.fetchAllRentals);
 
+//!ADMIN CAN ALSO DELETE OR CREATE CATEGORY IN THE category Module.
 
+//admin suspend or activate user
 export const adminRouter = router;

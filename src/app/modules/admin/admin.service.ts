@@ -1,3 +1,4 @@
+import { UserStatus } from "../../../../prisma/generated/prisma/enums";
 import { prisma } from "../../lib/prisma"
 
 
@@ -54,9 +55,40 @@ const fetchAllRentals = async (query: { limit?: string, page?: string }) => {
 
     return allRentals;
 }
+
+const updateUserStatusByAdmin = async (userId: string, userStatus: { status: UserStatus }) => {
+    const userExists = await prisma.user.findUniqueOrThrow({
+        where: {
+            id: userId
+        }
+    });
+    if (!userStatus) {
+        throw new Error("Please provide next status of the user.");
+    }
+
+    const { status } = userStatus;
+
+    if (status !== 'ACTIVE' && status !== 'SUSPENDED') {
+        throw new Error("Provide a valid status for the user");
+    }
+    if (userExists.status === status) {
+        throw new Error(`Cannot change status from ${userExists.status} to ${status}`);
+    }
+
+    const updatedUser = await prisma.user.update({
+        where: {
+            id: userId
+        },
+        data: {
+            status
+        }
+    });
+    return updatedUser;
+}
 export const adminService = {
     fetchAllUsers,
     fetchSingleUser,
     fetchAllGears,
-    fetchAllRentals
+    fetchAllRentals,
+    updateUserStatusByAdmin
 }

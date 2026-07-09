@@ -54,9 +54,24 @@ const fetchAllRentals = catchAsync(async (req: Request, res: Response, next: Nex
         data: result
     })
 })
+const updateUserStatusByAdmin = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.params.userId;
+
+    const result = await adminService.updateUserStatusByAdmin(userId as string, req.body);
+
+
+    sendResponse(res, {
+        success: true,
+        statusCode: 200,
+        message: "userStatus updated successfully",
+        data: result
+    })
+})
+
 export const adminController = {
     fetchAllUsers,
     fetchSingleUser,
     fetchAllGears,
-    fetchAllRentals
+    fetchAllRentals,
+    updateUserStatusByAdmin
 }

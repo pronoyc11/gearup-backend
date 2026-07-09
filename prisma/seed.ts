@@ -1,8 +1,15 @@
 import "dotenv/config";
 import { PrismaPg } from "@prisma/adapter-pg";
+import bcrypt from "bcrypt";
 import { PrismaClient } from "./generated/prisma/client";
 // import type { GearCreateManyInput } from "./generated/prisma/client";
-import { GearAvailability } from "./generated/prisma/enums";
+import {
+    GearAvailability,
+    PaymentStatus,
+    RentalStatus,
+    UserRole,
+    UserStatus,
+} from "./generated/prisma/enums";
 
 const connectionString = process.env.DATABASE_URL as string;
 const adapter = new PrismaPg({ connectionString });
@@ -354,13 +361,405 @@ const gearData = [
     }
 ];
 
+const seedCategories = [
+    { name: "Strength Training", description: "Weights, racks, benches, and strength equipment." },
+    { name: "Cardio Equipment", description: "Treadmills, rowers, bikes, and conditioning machines." },
+    { name: "Football", description: "Footballs, goals, cones, bibs, and training kits." },
+    { name: "Basketball", description: "Basketballs, hoops, and court training equipment." },
+    { name: "Cricket", description: "Bats, pads, helmets, wickets, balls, and practice nets." },
+    { name: "Racket Sports", description: "Badminton, tennis, squash, and table tennis equipment." },
+    { name: "Combat Sports", description: "Boxing, MMA, and martial arts training gear." },
+    { name: "Outdoor Fitness", description: "Cycling, running, and field training equipment." },
+] as const;
+
+const seedUsers = [
+    {
+        name: "GearUp Admin",
+        email: "admin@gearup.test",
+        role: UserRole.ADMIN,
+        phone: "+8801700000001",
+        address: "Gulshan, Dhaka",
+    },
+    {
+        name: "Iron House Rentals",
+        email: "ironhouse@gearup.test",
+        role: UserRole.PROVIDER,
+        phone: "+8801700000002",
+        address: "Banani, Dhaka",
+    },
+    {
+        name: "Pitch Perfect Sports",
+        email: "pitchperfect@gearup.test",
+        role: UserRole.PROVIDER,
+        phone: "+8801700000003",
+        address: "Mirpur, Dhaka",
+    },
+    {
+        name: "Court Side Supply",
+        email: "courtside@gearup.test",
+        role: UserRole.PROVIDER,
+        phone: "+8801700000004",
+        address: "Dhanmondi, Dhaka",
+    },
+    {
+        name: "Ayesha Rahman",
+        email: "ayesha@gearup.test",
+        role: UserRole.CUSTOMER,
+        phone: "+8801700000005",
+        address: "Uttara, Dhaka",
+    },
+    {
+        name: "Tanvir Hasan",
+        email: "tanvir@gearup.test",
+        role: UserRole.CUSTOMER,
+        phone: "+8801700000006",
+        address: "Mohammadpur, Dhaka",
+    },
+    {
+        name: "Nabila Karim",
+        email: "nabila@gearup.test",
+        role: UserRole.CUSTOMER,
+        phone: "+8801700000007",
+        address: "Bashundhara R/A, Dhaka",
+    },
+] as const;
+
+const seedGearItems = [
+    {
+        providerEmail: "ironhouse@gearup.test",
+        categoryName: "Strength Training",
+        title: "Bowflex SelectTech 552 Adjustable Dumbbells",
+        description: "Pair of adjustable dumbbells for home gym strength sessions.",
+        brand: "Bowflex",
+        pricePerDay: "700.00",
+        stock: 10,
+        specifications: { weightRange: "2.5kg to 24kg each", included: ["2 dumbbells", "storage trays"] },
+        availability: GearAvailability.AVAILABLE,
+        image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e",
+    },
+    {
+        providerEmail: "ironhouse@gearup.test",
+        categoryName: "Strength Training",
+        title: "Olympic Barbell and Bumper Plate Set",
+        description: "Competition-style barbell with bumper plates for deadlifts, squats, and presses.",
+        brand: "Rogue Fitness",
+        pricePerDay: "1200.00",
+        stock: 5,
+        specifications: { barLength: "7ft", maxLoad: "315kg", plates: ["5kg", "10kg", "15kg", "20kg"] },
+        availability: GearAvailability.AVAILABLE,
+        image: "https://images.unsplash.com/photo-1534367507873-d2d7e24c797f",
+    },
+    {
+        providerEmail: "ironhouse@gearup.test",
+        categoryName: "Strength Training",
+        title: "Foldable Squat Rack",
+        description: "Space-saving squat rack with pull-up bar and safety arms.",
+        brand: "PRx Performance",
+        pricePerDay: "1500.00",
+        stock: 3,
+        specifications: { height: "229cm", capacity: "450kg", features: ["pull-up bar", "j-cups", "safety arms"] },
+        availability: GearAvailability.MAINTENANCE,
+        image: "https://images.unsplash.com/photo-1599058917212-d750089bc07e",
+    },
+    {
+        providerEmail: "ironhouse@gearup.test",
+        categoryName: "Cardio Equipment",
+        title: "NordicTrack Commercial Treadmill",
+        description: "Motorized treadmill with incline control for endurance and interval training.",
+        brand: "NordicTrack",
+        pricePerDay: "2500.00",
+        stock: 4,
+        specifications: { motor: "3.5 CHP", maxSpeed: "20 km/h", incline: "0-15%", foldable: true },
+        availability: GearAvailability.AVAILABLE,
+        image: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b",
+    },
+    {
+        providerEmail: "ironhouse@gearup.test",
+        categoryName: "Cardio Equipment",
+        title: "Concept2 RowErg",
+        description: "Indoor rowing machine for low-impact full-body conditioning.",
+        brand: "Concept2",
+        pricePerDay: "1800.00",
+        stock: 6,
+        specifications: { monitor: "PM5", resistance: "Air", userCapacity: "227kg" },
+        availability: GearAvailability.AVAILABLE,
+        image: "https://images.unsplash.com/photo-1518611012118-696072aa579a",
+    },
+    {
+        providerEmail: "pitchperfect@gearup.test",
+        categoryName: "Football",
+        title: "Adidas UEFA Match Football",
+        description: "Size 5 match football suitable for club games and training.",
+        brand: "Adidas",
+        pricePerDay: "150.00",
+        stock: 30,
+        specifications: { size: 5, material: "PU leather", certification: "FIFA Quality Pro" },
+        availability: GearAvailability.AVAILABLE,
+        image: "https://images.unsplash.com/photo-1551958219-acbc608c6377",
+    },
+    {
+        providerEmail: "pitchperfect@gearup.test",
+        categoryName: "Football",
+        title: "Portable Football Goal Pair",
+        description: "Pair of portable goals for five-a-side matches and training drills.",
+        brand: "QuickPlay",
+        pricePerDay: "600.00",
+        stock: 8,
+        specifications: { dimensions: "12ft x 6ft", setupTime: "3 minutes", includesCarryBag: true },
+        availability: GearAvailability.AVAILABLE,
+        image: "https://images.unsplash.com/photo-1522778119026-d647f0596c20",
+    },
+    {
+        providerEmail: "courtside@gearup.test",
+        categoryName: "Basketball",
+        title: "Spalding NBA Basketball",
+        description: "Indoor and outdoor basketball for training and pickup games.",
+        brand: "Spalding",
+        pricePerDay: "180.00",
+        stock: 20,
+        specifications: { size: 7, material: "Composite leather", use: ["indoor", "outdoor"] },
+        availability: GearAvailability.AVAILABLE,
+        image: "https://images.unsplash.com/photo-1546519638-68e109498ffc",
+    },
+    {
+        providerEmail: "courtside@gearup.test",
+        categoryName: "Basketball",
+        title: "Portable Basketball Hoop",
+        description: "Adjustable hoop system for driveway, school, or event courts.",
+        brand: "Lifetime",
+        pricePerDay: "900.00",
+        stock: 5,
+        specifications: { backboard: "44 inch polycarbonate", heightRange: "7.5ft to 10ft", wheels: true },
+        availability: GearAvailability.AVAILABLE,
+        image: "https://images.unsplash.com/photo-1519861531473-9200262188bf",
+    },
+    {
+        providerEmail: "pitchperfect@gearup.test",
+        categoryName: "Cricket",
+        title: "Kookaburra Kahuna Cricket Bat",
+        description: "English willow cricket bat for match play and net sessions.",
+        brand: "Kookaburra",
+        pricePerDay: "500.00",
+        stock: 10,
+        specifications: { willow: "English willow", size: "Short handle", weight: "2lb 9oz" },
+        availability: GearAvailability.AVAILABLE,
+        image: "https://images.unsplash.com/photo-1531415074968-036ba1b575da",
+    },
+    {
+        providerEmail: "pitchperfect@gearup.test",
+        categoryName: "Cricket",
+        title: "Cricket Protective Kit",
+        description: "Pads, gloves, thigh guard, arm guard, and helmet for batting safety.",
+        brand: "Gray-Nicolls",
+        pricePerDay: "650.00",
+        stock: 7,
+        specifications: { size: "Adult", includes: ["helmet", "batting pads", "gloves", "guards"] },
+        availability: GearAvailability.AVAILABLE,
+        image: "https://images.unsplash.com/photo-1624526267942-ab0ff8a3e972",
+    },
+    {
+        providerEmail: "courtside@gearup.test",
+        categoryName: "Racket Sports",
+        title: "Yonex Astrox Badminton Racket Set",
+        description: "Two-racket badminton set with shuttlecocks for doubles practice.",
+        brand: "Yonex",
+        pricePerDay: "300.00",
+        stock: 14,
+        specifications: { rackets: 2, weight: "4U", shuttlecocks: 6 },
+        availability: GearAvailability.AVAILABLE,
+        image: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea",
+    },
+    {
+        providerEmail: "courtside@gearup.test",
+        categoryName: "Combat Sports",
+        title: "Everlast Boxing Glove and Pad Kit",
+        description: "Boxing gloves and focus mitts for sparring practice and coaching.",
+        brand: "Everlast",
+        pricePerDay: "450.00",
+        stock: 12,
+        specifications: { gloveWeight: "14oz", mitts: 2, material: "Synthetic leather" },
+        availability: GearAvailability.AVAILABLE,
+        image: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed",
+    },
+    {
+        providerEmail: "ironhouse@gearup.test",
+        categoryName: "Outdoor Fitness",
+        title: "Giant Talon Mountain Bike",
+        description: "Trail-ready mountain bike for outdoor fitness rides and weekend events.",
+        brand: "Giant",
+        pricePerDay: "1200.00",
+        stock: 6,
+        specifications: { frame: "Aluminum", wheelSize: "29 inch", gears: 21, brakes: "Hydraulic disc" },
+        availability: GearAvailability.AVAILABLE,
+        image: "https://images.unsplash.com/photo-1485965120184-e220f721d03e",
+    },
+] as const;
+
+const seedRentals = [
+    {
+        customerEmail: "ayesha@gearup.test",
+        gearTitle: "Concept2 RowErg",
+        quantity: "1",
+        totalAmount: "5400.00",
+        startDate: "2026-07-01",
+        endDate: "2026-07-04",
+        status: RentalStatus.RETURNED,
+        payment: { amount: "5400.00", transactionId: "seed_txn_rowerg_001", status: PaymentStatus.SUCCESS, paidAt: "2026-06-30T10:30:00.000Z" },
+        review: { rating: 5, comment: "Clean machine, smooth pickup, and perfect for our group session." },
+    },
+    {
+        customerEmail: "tanvir@gearup.test",
+        gearTitle: "Adidas UEFA Match Football",
+        quantity: "4",
+        totalAmount: "1200.00",
+        startDate: "2026-07-05",
+        endDate: "2026-07-07",
+        status: RentalStatus.PAID,
+        payment: { amount: "1200.00", transactionId: "seed_txn_football_002", status: PaymentStatus.SUCCESS, paidAt: "2026-07-04T15:15:00.000Z" },
+    },
+    {
+        customerEmail: "nabila@gearup.test",
+        gearTitle: "Portable Basketball Hoop",
+        quantity: "1",
+        totalAmount: "2700.00",
+        startDate: "2026-07-10",
+        endDate: "2026-07-13",
+        status: RentalStatus.CONFIRMED,
+        payment: { amount: "2700.00", transactionId: "seed_txn_hoop_003", status: PaymentStatus.PENDING, paidAt: null },
+    },
+    {
+        customerEmail: "ayesha@gearup.test",
+        gearTitle: "Kookaburra Kahuna Cricket Bat",
+        quantity: "2",
+        totalAmount: "2000.00",
+        startDate: "2026-07-15",
+        endDate: "2026-07-17",
+        status: RentalStatus.PLACED,
+    },
+] as const;
+
 async function main() {
-    console.log(`Seeding ${gearData.length} gear records...`);
-    await prisma.gear.createMany({
-        data: gearData as any,
-        skipDuplicates: true,
+    console.log("Resetting seedable tables...");
+    await prisma.review.deleteMany();
+    await prisma.payment.deleteMany();
+    await prisma.rentalOrder.deleteMany();
+    await prisma.gear.deleteMany();
+    await prisma.category.deleteMany();
+
+    const password = await bcrypt.hash("Password123!", 12);
+
+    console.log(`Upserting ${seedUsers.length} users...`);
+    const createdUsers = await Promise.all(
+        seedUsers.map((user) =>
+            prisma.user.upsert({
+                where: { email: user.email },
+                update: {
+                    name: user.name,
+                    role: user.role,
+                    status: UserStatus.ACTIVE,
+                    phone: user.phone,
+                    address: user.address,
+                },
+                create: {
+                    ...user,
+                    status: UserStatus.ACTIVE,
+                    password,
+                },
+            }),
+        ),
+    );
+
+    console.log(`Creating ${seedCategories.length} sports and gym categories...`);
+    const createdCategories = await Promise.all(
+        seedCategories.map((category) => prisma.category.create({ data: category })),
+    );
+
+    const userByEmail = new Map(createdUsers.map((user) => [user.email, user]));
+    const categoryByName = new Map(createdCategories.map((category) => [category.name, category]));
+
+    console.log(`Creating ${seedGearItems.length} sports and gym gear items...`);
+    const createdGear = await Promise.all(
+        seedGearItems.map((gear) => {
+            const provider = userByEmail.get(gear.providerEmail);
+            const category = categoryByName.get(gear.categoryName);
+
+            if (!provider || !category) {
+                throw new Error(`Missing provider or category for ${gear.title}`);
+            }
+
+            return prisma.gear.create({
+                data: {
+                    providerId: provider.id,
+                    categoryId: category.id,
+                    title: gear.title,
+                    description: gear.description,
+                    brand: gear.brand,
+                    pricePerDay: gear.pricePerDay,
+                    stock: gear.stock,
+                    specifications: gear.specifications,
+                    availability: gear.availability,
+                    image: gear.image,
+                },
+            });
+        }),
+    );
+
+    const gearByTitle = new Map(createdGear.map((gear) => [gear.title, gear]));
+
+    console.log(`Creating ${seedRentals.length} sample rental orders...`);
+    for (const rental of seedRentals) {
+        const customer = userByEmail.get(rental.customerEmail);
+        const gear = gearByTitle.get(rental.gearTitle);
+
+        if (!customer || !gear) {
+            throw new Error(`Missing customer or gear for rental: ${rental.gearTitle}`);
+        }
+
+        const createdRental = await prisma.rentalOrder.create({
+            data: {
+                customerId: customer.id,
+                gearId: gear.id,
+                quantity: rental.quantity,
+                totalAmount: rental.totalAmount,
+                startDate: new Date(`${rental.startDate}T00:00:00.000Z`),
+                endDate: new Date(`${rental.endDate}T23:59:59.000Z`),
+                status: rental.status,
+            },
+        });
+
+        if ("payment" in rental && rental.payment) {
+            await prisma.payment.create({
+                data: {
+                    orderId: createdRental.id,
+                    amount: rental.payment.amount,
+                    transactionId: rental.payment.transactionId,
+                    status: rental.payment.status,
+                    paidAt: rental.payment.paidAt ? new Date(rental.payment.paidAt) : null,
+                },
+            });
+        }
+
+        if ("review" in rental && rental.review) {
+            await prisma.review.create({
+                data: {
+                    customerId: customer.id,
+                    gearId: gear.id,
+                    rentalOrderId: createdRental.id,
+                    rating: rental.review.rating,
+                    comment: rental.review.comment,
+                },
+            });
+        }
+    }
+
+    console.log("Seed complete.");
+    console.table({
+        users: seedUsers.length,
+        categories: seedCategories.length,
+        gear: seedGearItems.length,
+        rentals: seedRentals.length,
     });
-    console.log("Gear seed complete.");
+    console.log("Default password for seeded users: Password123!");
 }
 
 main()
