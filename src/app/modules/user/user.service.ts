@@ -19,6 +19,9 @@ const getMyProfileFromDB = async (userId: string) => {
 }
 
 const updateMyProfile = async (userId: string, payload: IUpdateUser) => {
+    if (!payload) {
+        throw new Error("Must provide what to update");
+    }
     const profileExists = await prisma.user.findUniqueOrThrow({
         where: {
             id: userId
