@@ -23,7 +23,7 @@ const createCheckoutSession = async (rentalOrderId: string, userId: string) => {
             throw new Error("Not your order");
         }
         if (rentalOrderExists.status !== "CONFIRMED") {
-            throw new Error("Rental must be confirmed before payment.");
+            throw new Error(`Your rental status is ${rentalOrderExists.status}`);
         }
 
 
