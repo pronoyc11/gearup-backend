@@ -18,7 +18,9 @@ const viewProviderRentals = async (providerId: string) => {
             payment: true
         }
     });
-
+    if (allRentals.length === 0) {
+        throw new Error("No orders for you yet");
+    }
     return allRentals;
 }
 
