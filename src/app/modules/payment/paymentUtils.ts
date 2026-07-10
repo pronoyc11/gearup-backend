@@ -38,8 +38,13 @@ const updatePaymentWithWebhook = async (session: Stripe.Checkout.Session) => {
             console.log("No order found on this id");
             return;
         }
-        const numberOfDays = rentalUtls.rentalDays(rentalOrder.startDate, rentalOrder.endDate);
         let flag = true;
+        const today = new Date();
+
+        if (today < rentalOrder.startDate) {
+            flag = false;
+        }
+        const numberOfDays = rentalUtls.rentalDays(rentalOrder.startDate, rentalOrder.endDate);
         if (!numberOfDays.success) {
             flag = false;
         }
