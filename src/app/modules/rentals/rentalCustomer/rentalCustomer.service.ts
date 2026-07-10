@@ -78,6 +78,9 @@ const seeMyRentals = async (customerId: string) => {
     const myRentals = await prisma.rentalOrder.findMany({
         where: {
             customerId
+        },
+        include: {
+            gear: true
         }
     });
 
