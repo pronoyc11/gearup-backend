@@ -506,8 +506,9 @@ Prisma errors are mapped for common cases such as duplicate keys, foreign key fa
 ```
 
 ## Postman Collection
+Here is the APIDocs : https://documenter.getpostman.com/view/29611624/2sBY4LQMgk#gear-up-api
 
-The repository includes a Postman collection:
+The repository aslo includes a Postman collection:
 
 ```text
 Gear-up.postman_collection.json

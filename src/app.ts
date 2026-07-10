@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
+import express, { NextFunction, Request, Response, urlencoded } from "express";
 import { authRouter } from "./app/modules/auth/auth.route";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -19,6 +19,7 @@ const app = express();
 app.use("/api/payment/webhook", express.raw({ type: "application/json" }))
 app.use(express.json());
 app.use(cookieParser());
+app.use(urlencoded({ extended: true }))
 app.use(cors());
 
 app.get("/", (req: Request, res: Response) => {
