@@ -102,8 +102,40 @@ const updateRentalOrderStatus = async (orderId: string, providerId: string, payl
 
     return transactionResult;
 }
+const rentalOrderDetails = async (rentalId: string, userId: string) => {
+    const rental = await prisma.rentalOrder.findUnique({
+        where: {
+            id: rentalId
+        },
+        include: {
+            gear: {
+                select: {
+                    title: true,
+                    categoryId: true,
+                    stock: true,
+                    availability: true
 
+                }
+            },
+            customer: {
+                select: {
+                    name: true,
+                    email: true,
+                    phone: true
+                }
+            }
+        }
+    })
+    if (!rental) {
+        throw new Error("No order found on this id!");
+    }
+    if (rental.customerId !== userId) {
+        throw new Error("Uh, oh. Not your rental.");
+    }
+    return rental;
+}
 export const rentalProviderService = {
     viewProviderRentals,
-    updateRentalOrderStatus
+    updateRentalOrderStatus,
+    rentalOrderDetails
 }
