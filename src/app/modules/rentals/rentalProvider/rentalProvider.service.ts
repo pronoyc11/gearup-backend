@@ -113,8 +113,8 @@ const rentalOrderDetails = async (rentalId: string, userId: string) => {
                     title: true,
                     categoryId: true,
                     stock: true,
-                    availability: true
-
+                    availability: true,
+                    providerId: true
                 }
             },
             customer: {
@@ -129,7 +129,7 @@ const rentalOrderDetails = async (rentalId: string, userId: string) => {
     if (!rental) {
         throw new Error("No order found on this id!");
     }
-    if (rental.customerId !== userId) {
+    if (rental.gear.providerId !== userId) {
         throw new Error("Uh, oh. Not your rental.");
     }
     return rental;
