@@ -11,7 +11,8 @@ const checkOut = catchAsync(async (req: Request, res: Response
 
     const result = await paymentService.createCheckoutSession(
         req.body.rentalOrderId,
-        req.user?.id as string
+        req.user?.id as string,
+        req.user?.email as string
     );
 
     sendResponse(res, {
@@ -53,7 +54,7 @@ const viewOwnPayment = catchAsync(async (req: Request, res: Response, next: Next
 })
 const getPaymentDetails = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const result = await paymentService.getPaymentDetails(req.params.paymentId as string, req.user?.id as string);
-
+    
     sendResponse(res, {
         success: true,
         statusCode: 200,

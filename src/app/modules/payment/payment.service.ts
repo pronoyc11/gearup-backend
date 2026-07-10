@@ -5,7 +5,7 @@ import { stripe } from "../../lib/stripe"
 import { paymentUtils } from "./paymentUtils"
 
 
-const createCheckoutSession = async (rentalOrderId: string, userId: string) => {
+const createCheckoutSession = async (rentalOrderId: string, userId: string, userEmail: string) => {
     const transactionResult = await prisma.$transaction(async (tx) => {
 
         const rentalOrderExists = await tx.rentalOrder.findUnique({
@@ -62,7 +62,7 @@ const createCheckoutSession = async (rentalOrderId: string, userId: string) => {
                     quantity: 1,
                 },
             ],
-
+            customer_email: userEmail,
             metadata: {
                 rentalOrderId: rentalOrderExists.id,
                 customerId: rentalOrderExists.customerId,
