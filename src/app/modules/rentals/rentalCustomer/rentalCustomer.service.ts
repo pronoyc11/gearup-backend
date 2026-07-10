@@ -12,6 +12,16 @@ const createRentalOrder = async (customerId: string, payload: IRentalOrder) => {
         endDate
     } = payload;
 
+    if (!gearId || !quantity || !startDate || !endDate) {
+        throw new Error("Must provide all the required fields.")
+    }
+    if (quantity < 1) {
+        throw new Error("Quantity must be at least 1!!");
+    }
+    if (!rentalUtls.isValidISODate(startDate) || !rentalUtls.isValidISODate(endDate)) {
+        throw new Error("Provide a valid date format!");
+    }
+
     const gearExists = await prisma.gear.findUnique({
         where: {
             id: gearId

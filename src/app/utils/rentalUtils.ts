@@ -45,9 +45,19 @@ const returnNewStartAndEndDate = (days: number) => {
     return { startDate, endDate };
 }
 
+function isValidISODate(dateString: string): boolean {
+    // 1. Check format using Regex (YYYY-MM-DD)
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!regex.test(dateString)) return false;
+
+    // 2. Check logical validity (e.g., no Feb 30)
+    const date = new Date(dateString);
+    return !isNaN(date.getTime());
+}
 export const rentalUtls = {
     rentalDays,
     validateRentalStatusTransition,
     rentalStatusTransition,
-    returnNewStartAndEndDate
+    returnNewStartAndEndDate,
+    isValidISODate
 } 
