@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "21f1b700-22f3-4266-b7e4-ebe2f9802feb",
     "name": "Gear-up",
-    "description": "# Gear-up API\n\n**Gear-up** is a gear rental platform API that enables customers to browse and rent equipment, providers to list and manage their gear inventory, and administrators to oversee the entire platform.\n\n---\n\n## User Roles\n\n| Role | Description |\n| --- | --- |\n| **Customer** | Browses available gear, places rental orders, makes payments, and leaves reviews |\n| **Provider** | Lists gear for rent, manages inventory, and fulfills rental orders |\n| **Admin** | Manages users, categories, and platform-wide operations |\n\n---\n\n## API Modules\n\n| Module | Description |\n| --- | --- |\n| **auth** | User registration, login, token refresh, and logout |\n| **user** | User profile management and account settings |\n| **category** | Gear categories — create, read, update, and delete |\n| **gear** | Gear listings — browse, search, and manage rental items |\n| **rental_order** | Create and manage rental orders and their lifecycle |\n| **payment** | Payment processing and transaction history |\n| **admin** | Admin-only operations for platform management |\n| **reviews** | Submit and retrieve reviews for rented gear |\n\n---\n\n## Authentication\n\nMost endpoints require a **Bearer token** in the `Authorization` header:\n\n```\nAuthorization: Bearer <your_token>\n\n ```\n\nObtain a token by logging in via the **auth** module. Tokens should be stored and reused across requests.\n\nHowever Tokens will be auto saved in your cookies. So you don't have to send a Authorization header\n\n---\n\n## Base URL\n\nConfigure your environment with one of the following variables:\n\n- `{{backend_base}}` — Production / staging base URL\n    \n- `{{backend_dev}}` — Local development base URL\n    \n- Use {{backend_base}} = [https://gearup-backend-soqv.onrender.com](https://gearup-backend-soqv.onrender.com)\n    \n\nSet the appropriate variable in the active Gear-up environment before sending requests.",
+    "description": "# Gear-up API\n\n**Gear-up** is a gear rental platform API that enables customers to browse and rent equipment, providers to list and manage their gear inventory, and administrators to oversee the entire platform.\n\n---\n\n## User Roles\n\n| Role | Description |\n| --- | --- |\n| **Customer** | Browses available gear, places rental orders, makes payments, and leaves reviews |\n| **Provider** | Lists gear for rent, manages inventory, and fulfills rental orders |\n| **Admin** | Manages users, categories, and platform-wide operations |\n\n---\n\n## API Modules\n\n| Module | Description |\n| --- | --- |\n| **auth** | User registration, login, token refresh, and logout |\n| **user** | User profile management and account settings |\n| **category** | Gear categories — create, read, update, and delete |\n| **gear** | Gear listings — browse, search, and manage rental items |\n| **rental_order** | Create and manage rental orders and their lifecycle |\n| **payment** | Payment processing and transaction history |\n| **admin** | Admin-only operations for platform management |\n| **reviews** | Submit and retrieve reviews for rented gear |\n\n---\n\n## Authentication\n\nMost endpoints require a **Bearer token** in the `Authorization` header:\n\n```\nAuthorization: Bearer <your_token>\n\n ```\n\nObtain a token by logging in via the **auth** module. Tokens should be stored and reused across requests.\n\nHowever Tokens will be auto saved in your cookies. So you don't have to send a Authorization header\n\n---\n\n## Base URL\n\nConfigure your environment with one of the following variables:\n\n- `{{backend_base}}` — Production / staging base URL\n    \n- `{{backend_dev}}` — Local development base URL\n    \n- Use {{backend_base}} = [https://gearup-backend-soqv.onrender.com](https://gearup-backend-soqv.onrender.com) or [https://gearup-backend-gold.vercel.app/](https://gearup-backend-gold.vercel.app/) in vercel. Both works fine. I recommend to try with vercel initially.\n    \n\nSet the appropriate variable in the active Gear-up environment before sending requests.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "29611624"
   },
@@ -17,7 +17,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"Test Customer\",\r\n  \"email\": \"test.customer@example.com\",\r\n  \"password\": \"Password123!\",\r\n  \"role\": \"CUSTOMER\",\r\n  \"phone\": \"+8801711111111\",\r\n  \"address\": \"Dhaka\"\r\n}",
+              "raw": "{\r\n  \"name\": \"Test Customer\",\r\n  \"email\": \"prem@gmail.com\",\r\n  \"password\": \"Password123!\",\r\n  \"role\": \"CUSTOMER\",\r\n  \"phone\": \"+8801711111111\",\r\n  \"address\": \"Dhaka\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -25,12 +25,12 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/auth/register",
+              "raw": "https://gearup-backend-gold.vercel.app/api/auth/register",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -56,12 +56,12 @@
                   }
                 },
                 "url": {
-                  "raw": "https://gearup-backend-soqv.onrender.com/api/auth/register",
+                  "raw": "https://gearup-backend-gold.vercel.app/api/auth/register",
                   "protocol": "https",
                   "host": [
-                    "gearup-backend-soqv",
-                    "onrender",
-                    "com"
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
                   ],
                   "path": [
                     "api",
@@ -155,12 +155,12 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/auth/login",
+              "raw": "https://gearup-backend-gold.vercel.app/api/auth/login",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -186,9 +186,12 @@
                   }
                 },
                 "url": {
-                  "raw": "{{backend_base}}/api/auth/login",
+                  "raw": "https://gearup-backend-gold.vercel.app/api/auth/login",
+                  "protocol": "https",
                   "host": [
-                    "{{backend_base}}"
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
                   ],
                   "path": [
                     "api",
@@ -286,12 +289,12 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/auth/login",
+              "raw": "https://gearup-backend-gold.vercel.app/api/auth/login",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -409,7 +412,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \r\n    \"email\" : \"user1@gmail.com\",\r\n    \"password\" : \"1234\"\r\n}",
+              "raw": "{\r\n    \r\n    \"email\" : \"prem@gmail.com\",\r\n    \"password\" : \"Password123!\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -417,12 +420,12 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/auth/login",
+              "raw": "https://gearup-backend-gold.vercel.app/api/auth/login",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -558,12 +561,12 @@
               "raw": ""
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/user/me",
+              "raw": "https://gearup-backend-gold.vercel.app/api/user/me",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -686,12 +689,12 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/user/update-profile",
+              "raw": "https://gearup-backend-gold.vercel.app/api/user/update-profile",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -811,12 +814,12 @@
               "raw": ""
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/user/delete-profile",
+              "raw": "https://gearup-backend-gold.vercel.app/api/user/delete-profile",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -849,12 +852,12 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/category",
+              "raw": "https://gearup-backend-gold.vercel.app/api/category",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -972,12 +975,12 @@
               "file": {}
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/category/",
+              "raw": "https://gearup-backend-gold.vercel.app/api/category/",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -1088,12 +1091,12 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/category/dd21e094-2488-444a-989f-002abfd28eb9",
+              "raw": "https://gearup-backend-gold.vercel.app/api/category/dd21e094-2488-444a-989f-002abfd28eb9",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -1215,12 +1218,12 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/gear",
+              "raw": "https://gearup-backend-gold.vercel.app/api/gear",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -1346,12 +1349,12 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/gear?availability=AVAILABLE",
+              "raw": "https://gearup-backend-gold.vercel.app/api/gear?availability=AVAILABLE",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -1477,17 +1480,17 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/gear/beb76ce8-2d67-4323-aaad-bd8949f9a482",
+              "raw": "https://gearup-backend-gold.vercel.app/api/gear/6091289e-54ab-4804-b8c6-4da8f7c8af43",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
                 "gear",
-                "beb76ce8-2d67-4323-aaad-bd8949f9a482"
+                "6091289e-54ab-4804-b8c6-4da8f7c8af43"
               ]
             },
             "description": "## Get Gear by ID\n\nRetrieves the full details of a single gear item by its unique ID. The response includes the gear's name, description, category, pricing, availability status, provider information, and reviews. This endpoint is publicly accessible and does not require authentication. Pass the gear's ID as a path variable in the URL."
@@ -1598,12 +1601,12 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/gear/44798032-480b-4416-9af9-682f0a144448",
+              "raw": "https://gearup-backend-gold.vercel.app/api/gear/44798032-480b-4416-9af9-682f0a144448",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -1723,12 +1726,12 @@
               "raw": " {\"categoryId\": \"d4478220-c91d-4057-8624-f4d7a0a40835\",\r\n        \"title\": \"FIFA Quality Football 2026\",\r\n        \"description\": \"Official size 5 football suitable for professional matches.\",\r\n        \"brand\": \"nEW ZERSY\",\r\n        \"pricePerDay\": \"150\",\r\n        \"stock\": 30\r\n\r\n }"
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/gear/44798032-480b-4416-9af9-682f0a144448",
+              "raw": "https://gearup-backend-gold.vercel.app/api/gear/44798032-480b-4416-9af9-682f0a144448",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -1749,12 +1752,12 @@
                   "raw": " {\"categoryId\": \"d4478220-c91d-4057-8624-f4d7a0a40835\",\r\n        \"title\": \"FIFA Quality Football 2026\",\r\n        \"description\": \"Official size 5 football suitable for professional matches.\",\r\n        \"brand\": \"nEW ZERSY\",\r\n        \"pricePerDay\": \"150\",\r\n        \"stock\": 30\r\n\r\n }"
                 },
                 "url": {
-                  "raw": "https://gearup-backend-soqv.onrender.com/api/gear/44798032-480b-4416-9af9-682f0a144448",
+                  "raw": "https://gearup-backend-gold.vercel.app/api/gear/44798032-480b-4416-9af9-682f0a144448",
                   "protocol": "https",
                   "host": [
-                    "gearup-backend-soqv",
-                    "onrender",
-                    "com"
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
                   ],
                   "path": [
                     "api",
@@ -1846,7 +1849,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"gearId\": \"6091289e-54ab-4804-b8c6-4da8f7c8af43\",\r\n  \"quantity\": 1,\r\n  \"startDate\": \"2026-07-20\",\r\n  \"endDate\": \"2026-07-22\"\r\n}",
+              "raw": "{\r\n  \"gearId\": \"6091289e-54ab-4804-b8c6-4da8f7c8af43\",\r\n  \"quantity\": 1,\r\n  \"startDate\": \"2026-07-10\",\r\n  \"endDate\": \"2026-07-12\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1854,12 +1857,12 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/rental/customer",
+              "raw": "https://gearup-backend-gold.vercel.app/api/rental/customer",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -1982,17 +1985,18 @@
               "raw": "{\r\n  \"gearId\": \"b42a7f99-9528-4c5e-8d1b-780bfdc3a2f3\",\r\n  \"quantity\": 1,\r\n  \"startDate\": \"2026-07-08\",\r\n  \"endDate\": \"2026-07-11\"\r\n}"
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/rental/customer",
+              "raw": "https://gearup-backend-gold.vercel.app/api/rental/customer/",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
                 "rental",
-                "customer"
+                "customer",
+                ""
               ]
             },
             "description": "## See My Rentals (Customer)\n\nRetrieves all rental orders placed by the currently authenticated customer. The response includes order details such as gear info, rental dates, status (pending, approved, cancelled, returned), and payment status. This endpoint is restricted to **customer** users and requires a valid customer JWT token in the `Authorization` header."
@@ -2105,15 +2109,18 @@
               "raw": "{\r\n  \"gearId\": \"b42a7f99-9528-4c5e-8d1b-780bfdc3a2f3\",\r\n  \"quantity\": 1,\r\n  \"startDate\": \"2026-07-08\",\r\n  \"endDate\": \"2026-07-11\"\r\n}"
             },
             "url": {
-              "raw": "localhost:5000/api/rental/customer",
+              "raw": "https://gearup-backend-gold.vercel.app/api/rental/provider/",
+              "protocol": "https",
               "host": [
-                "localhost"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "rental",
-                "customer"
+                "provider",
+                ""
               ]
             },
             "description": "## See My Rentals (Provider)\n\nRetrieves all rental orders associated with the gear listings owned by the currently authenticated provider. The response includes order details such as customer info, gear info, rental dates, and current order status. This endpoint is restricted to **provider** users and requires a valid provider JWT token in the `Authorization` header."
@@ -2229,18 +2236,18 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/rental/provider/2897c532-f581-4b2f-a971-30d897e6dbec",
+              "raw": "https://gearup-backend-gold.vercel.app/api/rental/provider/8ce3dd37-8f80-4091-9d40-e4b9d18f09b4",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
                 "rental",
                 "provider",
-                "2897c532-f581-4b2f-a971-30d897e6dbec"
+                "8ce3dd37-8f80-4091-9d40-e4b9d18f09b4"
               ]
             },
             "description": "## Update Order Status (Provider)\n\nAllows a provider to update the status of a rental order (e.g., approve, reject, or mark as returned). Replace `{id}` in the URL with the rental order's ID. The request body should include the new status value. This endpoint is restricted to **provider** users and requires a valid provider JWT token in the `Authorization` header."
@@ -2352,12 +2359,12 @@
             "method": "PATCH",
             "header": [],
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/rental/customer/cancel/71400060-ad5b-47d1-b6b1-2f24992f2d4b",
+              "raw": "https://gearup-backend-gold.vercel.app/api/rental/customer/cancel/71400060-ad5b-47d1-b6b1-2f24992f2d4b",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -2370,6 +2377,249 @@
             "description": "## Cancel Order (Customer)\n\nAllows a customer to cancel an existing rental order by its ID. Replace `{id}` in the URL with the rental order's ID. Cancellation may only be possible if the order is still in a pending or approved state — orders that have already been fulfilled may not be cancellable. This endpoint is restricted to **customer** users and requires a valid customer JWT token in the `Authorization` header."
           },
           "response": []
+        },
+        {
+          "name": "Get_Rental_Details_By_Customer",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"gearId\": \"b42a7f99-9528-4c5e-8d1b-780bfdc3a2f3\",\r\n  \"quantity\": 1,\r\n  \"startDate\": \"2026-07-08\",\r\n  \"endDate\": \"2026-07-11\"\r\n}"
+            },
+            "url": {
+              "raw": "https://gearup-backend-gold.vercel.app/api/rental/customer/8ce3dd37-8f80-4091-9d40-e4b9d18f09b4",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-gold",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "rental",
+                "customer",
+                "8ce3dd37-8f80-4091-9d40-e4b9d18f09b4"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get_Rental_Details_By_Customer",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"gearId\": \"b42a7f99-9528-4c5e-8d1b-780bfdc3a2f3\",\r\n  \"quantity\": 1,\r\n  \"startDate\": \"2026-07-08\",\r\n  \"endDate\": \"2026-07-11\"\r\n}"
+                },
+                "url": {
+                  "raw": "https://gearup-backend-soqv.onrender.com/api/rental/customer/8ce3dd37-8f80-4091-9d40-e4b9d18f09b4",
+                  "protocol": "https",
+                  "host": [
+                    "gearup-backend-soqv",
+                    "onrender",
+                    "com"
+                  ],
+                  "path": [
+                    "api",
+                    "rental",
+                    "customer",
+                    "8ce3dd37-8f80-4091-9d40-e4b9d18f09b4"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "date",
+                  "value": "Fri, 10 Jul 2026 17:17:31 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "content-length",
+                  "value": "707"
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "content-encoding",
+                  "value": "br"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"51e-nBvSm0OWlN9fJbDAA30oYkCC+3w\""
+                },
+                {
+                  "key": "rndr-id",
+                  "value": "395bfa96-2ff2-470a"
+                },
+                {
+                  "key": "server",
+                  "value": "cloudflare"
+                },
+                {
+                  "key": "vary",
+                  "value": "Accept-Encoding"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-render-origin-server",
+                  "value": "Render"
+                },
+                {
+                  "key": "cf-cache-status",
+                  "value": "DYNAMIC"
+                },
+                {
+                  "key": "cf-ray",
+                  "value": "a19138db6eaf931c-DAC"
+                },
+                {
+                  "key": "alt-svc",
+                  "value": "h3=\":443\"; ma=86400"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Rental Order retrieved successfully\",\n    \"data\": {\n        \"id\": \"8ce3dd37-8f80-4091-9d40-e4b9d18f09b4\",\n        \"customerId\": \"69e79907-56c7-46e4-aca6-46fd384b619c\",\n        \"gearId\": \"6091289e-54ab-4804-b8c6-4da8f7c8af43\",\n        \"quantity\": \"1\",\n        \"totalAmount\": \"1800\",\n        \"startDate\": \"2026-07-10T00:00:00.000Z\",\n        \"endDate\": \"2026-07-12T00:00:00.000Z\",\n        \"status\": \"PLACED\",\n        \"createdAt\": \"2026-07-10T17:16:29.724Z\",\n        \"updatedAt\": \"2026-07-10T17:16:29.724Z\",\n        \"gear\": {\n            \"id\": \"6091289e-54ab-4804-b8c6-4da8f7c8af43\",\n            \"providerId\": \"edfb8462-0640-4f25-91fd-57267c4bfb05\",\n            \"categoryId\": \"0a52dcf2-6ee4-43a1-a5e5-5f00adbba578\",\n            \"title\": \"Portable Football Goal Pair\",\n            \"description\": \"Pair of portable goals for five-a-side matches and training drills.\",\n            \"brand\": \"QuickPlay\",\n            \"pricePerDay\": \"600\",\n            \"stock\": 6,\n            \"specifications\": {\n                \"setupTime\": \"3 minutes\",\n                \"dimensions\": \"12ft x 6ft\",\n                \"includesCarryBag\": true\n            },\n            \"availability\": \"AVAILABLE\",\n            \"image\": \"https://images.unsplash.com/photo-1522778119026-d647f0596c20\",\n            \"createdAt\": \"2026-07-09T12:06:27.362Z\",\n            \"updatedAt\": \"2026-07-10T15:05:22.106Z\",\n            \"provider\": {\n                \"id\": \"edfb8462-0640-4f25-91fd-57267c4bfb05\",\n                \"name\": \"Pitch Perfect Sports\",\n                \"email\": \"pitchperfect@gearup.test\",\n                \"role\": \"PROVIDER\",\n                \"status\": \"ACTIVE\",\n                \"phone\": \"+8801700000003\",\n                \"address\": \"Mirpur, Dhaka\",\n                \"createdAt\": \"2026-07-09T12:06:26.631Z\",\n                \"updatedAt\": \"2026-07-09T12:06:26.631Z\"\n            }\n        }\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get_Rental_Details_By_Provider",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://gearup-backend-gold.vercel.app/api/rental/provider/8ce3dd37-8f80-4091-9d40-e4b9d18f09b4",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-gold",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "rental",
+                "provider",
+                "8ce3dd37-8f80-4091-9d40-e4b9d18f09b4"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Get_Rental_Details_By_Provider",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "https://gearup-backend-gold.vercel.app/api/rental/provider/8ce3dd37-8f80-4091-9d40-e4b9d18f09b4",
+                  "protocol": "https",
+                  "host": [
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "rental",
+                    "provider",
+                    "8ce3dd37-8f80-4091-9d40-e4b9d18f09b4"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "",
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "date",
+                  "value": "Fri, 10 Jul 2026 18:18:11 GMT"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "content-length",
+                  "value": "431"
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "content-encoding",
+                  "value": "br"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"2b4-h8jowugmZPtdr2YhT8N/qK0XRPY\""
+                },
+                {
+                  "key": "rndr-id",
+                  "value": "f94189bd-1cc9-4c06"
+                },
+                {
+                  "key": "server",
+                  "value": "cloudflare"
+                },
+                {
+                  "key": "vary",
+                  "value": "Accept-Encoding"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-render-origin-server",
+                  "value": "Render"
+                },
+                {
+                  "key": "cf-cache-status",
+                  "value": "DYNAMIC"
+                },
+                {
+                  "key": "cf-ray",
+                  "value": "a19191b7189388f7-DAC"
+                },
+                {
+                  "key": "alt-svc",
+                  "value": "h3=\":443\"; ma=86400"
+                }
+              ],
+              "cookie": [
+                {
+                  "expires": "Invalid Date",
+                  "domain": "",
+                  "path": ""
+                }
+              ],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Rental Order retrieved successfully\",\n    \"data\": {\n        \"id\": \"8ce3dd37-8f80-4091-9d40-e4b9d18f09b4\",\n        \"customerId\": \"69e79907-56c7-46e4-aca6-46fd384b619c\",\n        \"gearId\": \"6091289e-54ab-4804-b8c6-4da8f7c8af43\",\n        \"quantity\": \"1\",\n        \"totalAmount\": \"1800\",\n        \"startDate\": \"2026-07-10T00:00:00.000Z\",\n        \"endDate\": \"2026-07-12T00:00:00.000Z\",\n        \"status\": \"PLACED\",\n        \"createdAt\": \"2026-07-10T17:16:29.724Z\",\n        \"updatedAt\": \"2026-07-10T17:16:29.724Z\",\n        \"gear\": {\n            \"title\": \"Portable Football Goal Pair\",\n            \"categoryId\": \"0a52dcf2-6ee4-43a1-a5e5-5f00adbba578\",\n            \"stock\": 6,\n            \"availability\": \"AVAILABLE\",\n            \"providerId\": \"edfb8462-0640-4f25-91fd-57267c4bfb05\"\n        },\n        \"customer\": {\n            \"name\": \"Prem\",\n            \"email\": \"prem@example.com\",\n            \"phone\": \"+8801711111111\"\n        }\n    }\n}"
+            }
+          ]
         }
       ],
       "description": "## Rental Order\n\nThis folder handles the full rental order lifecycle on the Gear-up platform. Customers can create rental orders and cancel them, while providers can view incoming orders and update their status (e.g., approve, reject, mark as returned). All endpoints require authentication with the appropriate user role."
@@ -2384,7 +2634,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"rentalOrderId\": \"2897c532-f581-4b2f-a971-30d897e6dbec\"\r\n}",
+              "raw": "{\r\n    \"rentalOrderId\": \"8ce3dd37-8f80-4091-9d40-e4b9d18f09b4\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2392,12 +2642,12 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/payment/create-session",
+              "raw": "https://gearup-backend-gold.vercel.app/api/payment/create-session",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -2490,12 +2740,12 @@
               "raw": "{\r\n    \"rentalOrderId\": \"2dfe34a3-fc73-4080-b7b9-97aa32363279\"\r\n}"
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/payment",
+              "raw": "https://gearup-backend-gold.vercel.app/api/payment",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -2515,11 +2765,13 @@
                   "raw": "{\r\n    \"rentalOrderId\": \"2dfe34a3-fc73-4080-b7b9-97aa32363279\"\r\n}"
                 },
                 "url": {
-                  "raw": "localhost:5000/api/payment",
+                  "raw": "https://gearup-backend-gold.vercel.app/api/payment",
+                  "protocol": "https",
                   "host": [
-                    "localhost"
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
                   ],
-                  "port": "5000",
                   "path": [
                     "api",
                     "payment"
@@ -2581,12 +2833,12 @@
               "raw": "{\r\n    \"rentalOrderId\": \"2dfe34a3-fc73-4080-b7b9-97aa32363279\"\r\n}"
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/payment/03f90d1d-b3ed-426b-90bd-c72a8e5d2594",
+              "raw": "https://gearup-backend-gold.vercel.app/api/payment/03f90d1d-b3ed-426b-90bd-c72a8e5d2594",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -2607,12 +2859,12 @@
                   "raw": "{\r\n    \"rentalOrderId\": \"2dfe34a3-fc73-4080-b7b9-97aa32363279\"\r\n}"
                 },
                 "url": {
-                  "raw": "https://gearup-backend-soqv.onrender.com/api/payment/03f90d1d-b3ed-426b-90bd-c72a8e5d2594",
+                  "raw": "https://gearup-backend-gold.vercel.app/api/payment/03f90d1d-b3ed-426b-90bd-c72a8e5d2594",
                   "protocol": "https",
                   "host": [
-                    "gearup-backend-soqv",
-                    "onrender",
-                    "com"
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
                   ],
                   "path": [
                     "api",
@@ -2681,12 +2933,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/admin/users",
+              "raw": "https://gearup-backend-gold.vercel.app/api/admin/users",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -2763,12 +3015,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/admin/users/84fe8f32-f664-4118-a78b-e909c9f7abf4",
+              "raw": "https://gearup-backend-gold.vercel.app/api/admin/users/84fe8f32-f664-4118-a78b-e909c9f7abf4",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -2786,11 +3038,13 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "localhost:5000/api/admin/users/84fe8f32-f664-4118-a78b-e909c9f7abf4",
+                  "raw": "https://gearup-backend-gold.vercel.app/api/admin/users/84fe8f32-f664-4118-a78b-e909c9f7abf4",
+                  "protocol": "https",
                   "host": [
-                    "localhost"
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
                   ],
-                  "port": "5000",
                   "path": [
                     "api",
                     "admin",
@@ -2847,12 +3101,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/admin/rentals",
+              "raw": "https://gearup-backend-gold.vercel.app/api/admin/rentals",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -2869,12 +3123,12 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "https://gearup-backend-soqv.onrender.com/api/admin/rentals",
+                  "raw": "https://gearup-backend-gold.vercel.app/api/admin/rentals",
                   "protocol": "https",
                   "host": [
-                    "gearup-backend-soqv",
-                    "onrender",
-                    "com"
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
                   ],
                   "path": [
                     "api",
@@ -2968,12 +3222,12 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/admin/users/ac835f45-1d08-4139-a8fc-5b1f5907e3c2",
+              "raw": "https://gearup-backend-gold.vercel.app/api/admin/users/ac835f45-1d08-4139-a8fc-5b1f5907e3c2",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -3000,11 +3254,13 @@
                   }
                 },
                 "url": {
-                  "raw": "localhost:5000/api/admin/users/84fe8f32-f664-4118-a78b-e909c9f7abf4",
+                  "raw": "https://gearup-backend-gold.vercel.app/api/admin/users/84fe8f32-f664-4118-a78b-e909c9f7abf4",
+                  "protocol": "https",
                   "host": [
-                    "localhost"
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
                   ],
-                  "port": "5000",
                   "path": [
                     "api",
                     "admin",
@@ -3076,12 +3332,12 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/review/create",
+              "raw": "https://gearup-backend-gold.vercel.app/api/review/create",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -3107,9 +3363,12 @@
                   }
                 },
                 "url": {
-                  "raw": "{{/api/review/create",
+                  "raw": "https://gearup-backend-gold.vercel.app/api/review/create",
+                  "protocol": "https",
                   "host": [
-                    "{{"
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
                   ],
                   "path": [
                     "api",
@@ -3194,12 +3453,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "https://gearup-backend-soqv.onrender.com/api/review/6091289e-54ab-4804-b8c6-4da8f7c8af43",
+              "raw": "https://gearup-backend-gold.vercel.app/api/review/6091289e-54ab-4804-b8c6-4da8f7c8af43",
               "protocol": "https",
               "host": [
-                "gearup-backend-soqv",
-                "onrender",
-                "com"
+                "gearup-backend-gold",
+                "vercel",
+                "app"
               ],
               "path": [
                 "api",
@@ -3216,12 +3475,12 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "https://gearup-backend-soqv.onrender.com/api/review/6091289e-54ab-4804-b8c6-4da8f7c8af43",
+                  "raw": "https://gearup-backend-gold.vercel.app/api/review/6091289e-54ab-4804-b8c6-4da8f7c8af43",
                   "protocol": "https",
                   "host": [
-                    "gearup-backend-soqv",
-                    "onrender",
-                    "com"
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
                   ],
                   "path": [
                     "api",
@@ -3316,12 +3575,15 @@
           "file": {}
         },
         "url": {
-          "raw": "https://gearup-backend-soqv.onrender.com",
+          "raw": "https://gearup-backend-gold.vercel.app/",
           "protocol": "https",
           "host": [
-            "gearup-backend-soqv",
-            "onrender",
-            "com"
+            "gearup-backend-gold",
+            "vercel",
+            "app"
+          ],
+          "path": [
+            ""
           ]
         }
       },

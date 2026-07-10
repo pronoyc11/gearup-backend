@@ -124,6 +124,13 @@ Default base URL:
 http://localhost:5000
 ```
 
+## Live Deployments
+
+You can use either of these live API base URLs:
+
+- Vercel: https://gearup-backend-5simw5cis-pothik-chowdhury-s-projects.vercel.app/
+- Render: https://gearup-backend-soqv.onrender.com
+
 Health/root endpoint:
 
 ```http
