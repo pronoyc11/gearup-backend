@@ -37,8 +37,17 @@ export const validateRentalStatusTransition = (currentStatus: RentalStatus, next
     return rentalStatusTransition[currentStatus].includes(nextStatus);
 }
 
+const returnNewStartAndEndDate = (days: number) => {
+    const startDate = new Date();
+    const endDateInMS = startDate.getTime() + (1000 * 60 * 60 * 24 * days);
+    const endDate = new Date(endDateInMS);
+
+    return { startDate, endDate };
+}
+
 export const rentalUtls = {
     rentalDays,
     validateRentalStatusTransition,
-    rentalStatusTransition
+    rentalStatusTransition,
+    returnNewStartAndEndDate
 } 

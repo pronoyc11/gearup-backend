@@ -1,9 +1,10 @@
 import type Stripe from "stripe";
 import { PaymentStatus, RentalStatus } from "../../../../prisma/generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
+import { rentalUtls } from "../../utils/rentalUtils";
 
 
- const updatePaymentWithWebhook = async (session: Stripe.Checkout.Session) => {
+const updatePaymentWithWebhook = async (session: Stripe.Checkout.Session) => {
     await prisma.$transaction(async (tx) => {
         const rentalOrderId = session.metadata?.rentalOrderId;
 
@@ -13,6 +14,7 @@ import { prisma } from "../../lib/prisma";
             }
         })
         if (checkPaymentStatus?.status === 'SUCCESS') {
+            console.log("Already paid");
             return;
         }
 
@@ -27,12 +29,31 @@ import { prisma } from "../../lib/prisma";
                 paidAt: new Date()
             }
         });
+        const rentalOrder = await tx.rentalOrder.findUnique({
+            where: {
+                id: rentalOrderId
+            }
+        })
+        if (!rentalOrder) {
+            console.log("No order found on this id");
+            return;
+        }
+        const numberOfDays = rentalUtls.rentalDays(rentalOrder.startDate, rentalOrder.endDate);
+        let flag = true;
+        if (!numberOfDays.success) {
+            flag = false;
+        }
+
+        const newStartAndEndDate = rentalUtls.returnNewStartAndEndDate(numberOfDays.data!);
+
         await tx.rentalOrder.update({
             where: {
                 id: rentalOrderId!
             },
             data: {
-                status: RentalStatus.PAID
+                status: RentalStatus.PAID,
+                startDate: flag ? newStartAndEndDate.startDate : rentalOrder.startDate,
+                endDate: flag ? newStartAndEndDate.endDate : rentalOrder.endDate
             }
         });
     })
