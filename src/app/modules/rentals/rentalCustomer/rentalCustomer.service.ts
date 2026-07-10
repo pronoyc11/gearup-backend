@@ -34,7 +34,7 @@ const createRentalOrder = async (customerId: string, payload: IRentalOrder) => {
     const convertedEndDate = new Date(endDate);
 
     const today = new Date();
-
+    today.setHours(0, 0, 0, 0);
     if (today > convertedStartDate) {
         throw new Error("Start date can't be in the past.");
     }
@@ -58,6 +58,9 @@ const createRentalOrder = async (customerId: string, payload: IRentalOrder) => {
             startDate: convertedStartDate,
             endDate: convertedEndDate,
             status: RentalStatus.PLACED
+        },
+        include: {
+            gear: true
         }
     });
 
