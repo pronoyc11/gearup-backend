@@ -272,21 +272,21 @@ Gear availability values:
 - `OUT_OF_STOCK`
 - `MAINTENANCE`
 
-Supported gear query parameters:
+The public `GET /api/gear` endpoint supports these query parameters:
 
-| Query | Description |
-| --- | --- |
-| `searchTerm` | Searches title, brand, and description |
-| `minPrice` | Minimum daily price |
-| `maxPrice` | Maximum daily price |
-| `availability` | Gear availability filter |
-| `brand` | Exact brand filter |
-| `title` | Exact title filter |
-| `categoryName` | Exact category name filter |
-| `page` | Page number |
-| `limit` | Items per page, defaults to 5 |
-| `sortBy` | Field to sort by, defaults to `createdAt` |
-| `sortOrder` | `asc` or `desc`, defaults to `asc` |
+| Query | Description | Default / Values |
+| --- | --- | --- |
+| `searchTerm` | Case-insensitive search across gear `title`, `brand`, and `description` | Optional |
+| `minPrice` | Minimum `pricePerDay` filter | Optional number |
+| `maxPrice` | Maximum `pricePerDay` filter | Optional number |
+| `availability` | Filter by gear availability | `AVAILABLE`, `OUT_OF_STOCK`, `MAINTENANCE` |
+| `brand` | Exact brand filter | Optional |
+| `title` | Exact title filter | Optional |
+| `categoryName` | Exact category name filter | Optional |
+| `page` | Page number for pagination | Optional, starts at `1` |
+| `limit` | Number of items per page | Defaults to `5` |
+| `sortBy` | Field name to sort by | Defaults to `createdAt` |
+| `sortOrder` | Sort direction | `asc` or `desc`, defaults to `asc` |
 
 Example:
 

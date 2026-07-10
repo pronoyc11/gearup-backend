@@ -202,6 +202,10 @@ const getSingleGearByIdFromDB = async (gearId: string) => {
 
 const updateGearInDB = async (providerId: string, gearId: string, payload: IgearUpdateItem) => {
 
+    if (!payload) {
+        throw new Error("Please specify what you want to update!");
+    }
+
     const gearExist = await prisma.gear.findUniqueOrThrow({
         where: {
             id: gearId
