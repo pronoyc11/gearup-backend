@@ -5,7 +5,7 @@ import type { IReview } from "./review.interface";
 
 const createReview = async (customerId: string, payload: IReview) => {
     if (!payload) {
-        throw new Error("Must provide payload!");
+        throw new Error("Must provide review!");
     }
     const { gearId,
         rentalOrderId,

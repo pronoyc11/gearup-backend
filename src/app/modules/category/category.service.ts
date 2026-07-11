@@ -3,6 +3,9 @@ import { prisma } from "../../lib/prisma"
 
 const createCategoryInDB = async (payload: { name: string, description?: string }) => {
 
+    if (!payload) {
+        throw new Error("Must provide category!");
+    }
     const category = await prisma.category.create({
         data: {
             ...payload

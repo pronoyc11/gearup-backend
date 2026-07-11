@@ -6,6 +6,9 @@ import type { IRentalOrder } from "../rental.interface";
 
 const createRentalOrder = async (customerId: string, payload: IRentalOrder) => {
 
+    if(!payload){
+        throw new Error("Required fields are missing");
+    }
     const { gearId,
         quantity,
         startDate,

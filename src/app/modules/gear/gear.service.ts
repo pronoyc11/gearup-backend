@@ -6,6 +6,9 @@ import type { IgearItem, IGearQuery, IgearUpdateItem } from "./gear.interface";
 
 const createGearItem = async (providerId: string, payload: IgearItem) => {
 
+    if (!payload) {
+        throw new Error("Please provide what you want to create.");
+    }
     const {
         categoryId,
         title,

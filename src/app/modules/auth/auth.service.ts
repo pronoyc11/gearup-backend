@@ -1,14 +1,16 @@
-import { UserStatus } from "../../../../prisma/generated/prisma/enums";
 import config from "../../config";
 import { prisma } from "../../lib/prisma";
 import type { IregisterPayload } from "./auth.interface"
 import bcrypt from "bcrypt";
 import jwt, { type SignOptions } from "jsonwebtoken";
 import { createToken } from "../../utils/jwtUtils";
+import { UserStatus } from "../../../../prisma/generated/prisma/enums";
 
 const registerUserInDB = async (payload: IregisterPayload) => {
 
-
+    if (!payload) {
+        throw new Error("Please provide required informations");
+    }
     const { name, email, password, role, phone, address } = payload;
 
     if (role === "ADMIN") {
