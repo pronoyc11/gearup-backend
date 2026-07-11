@@ -2,6 +2,20 @@
 
 GearUp Backend is a REST API for a sports and equipment rental platform. It supports customer registration, provider-managed gear listings, rental orders, provider order workflows, Stripe checkout payments, reviews, and admin management.
 
+## Project Links
+
+- Backend Repository: https://github.com/pronoyc11/gearup-backend/tree/main
+- Live API: https://gearup-backend-gold.vercel.app
+- API Docs: https://documenter.getpostman.com/view/29611624/2sBY4LQMgk#gear-up-api
+- Demo Video: https://youtu.be/atEantVfHDg
+
+## Demo Admin Credentials
+
+```text
+Email: user3@gmail.com
+Password: Password123!
+```
+
 ## Tech Stack
 
 - Node.js with Express 5
