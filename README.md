@@ -128,7 +128,7 @@ http://localhost:5000
 
 You can use either of these live API base URLs:
 
-- Vercel: https://gearup-backend-5simw5cis-pothik-chowdhury-s-projects.vercel.app/
+- Vercel: https://gearup-backend-gold.vercel.app
 - Render: https://gearup-backend-soqv.onrender.com
 
 Health/root endpoint:
