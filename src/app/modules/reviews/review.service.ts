@@ -58,6 +58,11 @@ const getAllReviews = async (gearId: string) => {
                 select: {
                     name: true
                 }
+            },
+            gear: {
+                select: {
+                    title: true
+                }
             }
 
         }
