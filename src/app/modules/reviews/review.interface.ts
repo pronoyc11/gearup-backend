@@ -5,3 +5,8 @@ export interface IReview {
     rating: number;
     comment?: string
 }
+export interface IReviewUpdate {
+
+    rating?: number;
+    comment?: string
+}

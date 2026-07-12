@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import type { IReview } from "./review.interface";
+import type { IReview, IReviewUpdate } from "./review.interface";
 
 
 
@@ -74,7 +74,44 @@ const getAllReviews = async (gearId: string) => {
     return getAllReviews;
 }
 
+const updateReview = async (reviewId: string, userId: string, payload: IReviewUpdate) => {
+    if (!payload) {
+        throw new Error("Must provide review information to update.");
+    }
+    const { rating, comment } = payload;
+
+    if (!rating && !comment) {
+        throw new Error("At least one field is required");
+    }
+    const reviewExists = await prisma.review.findUnique({
+        where: {
+            id: reviewId
+        }
+    });
+
+    if (!reviewExists) {
+        throw new Error("No review exists with this id.");
+    }
+
+    if (reviewExists!.customerId !== userId) {
+        throw new Error("You don't own this review!");
+    }
+
+    const updatedReview = await prisma.review.update({
+        where: {
+            id: reviewId
+        },
+        data: {
+            ...payload
+        }
+    });
+
+    return updatedReview;
+}
+
+
 export const reviewService = {
     createReview,
-    getAllReviews
+    getAllReviews,
+    updateReview
 }

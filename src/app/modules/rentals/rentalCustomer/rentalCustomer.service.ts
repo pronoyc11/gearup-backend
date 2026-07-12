@@ -6,7 +6,7 @@ import type { IRentalOrder } from "../rental.interface";
 
 const createRentalOrder = async (customerId: string, payload: IRentalOrder) => {
 
-    if(!payload){
+    if (!payload) {
         throw new Error("Required fields are missing");
     }
     const { gearId,
@@ -39,7 +39,7 @@ const createRentalOrder = async (customerId: string, payload: IRentalOrder) => {
         throw new Error("Currently this gear is not available for renting")
     }
     if (quantity > gearExists.stock) {
-        throw new Error("Quantity limit exceeded.");
+        throw new Error("Quantity limit exceeded the stock.");
     }
 
     //This format (YYYY-MM-DD)
