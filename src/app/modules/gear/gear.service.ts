@@ -171,7 +171,8 @@ const getAllGearItems = async (query: IGearQuery) => {
         include: {
             provider: {
                 select: {
-                    name: true
+                    name: true,
+                    email: true
                 }
             },
             category: {
