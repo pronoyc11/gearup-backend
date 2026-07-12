@@ -1,4 +1,5 @@
 import { prisma } from "../../lib/prisma"
+import { Icategory } from "./category.interface";
 
 
 const createCategoryInDB = async (payload: { name: string, description?: string }) => {
@@ -22,6 +23,34 @@ const getAllCategoryFromDB = async () => {
     return allCategory;
 }
 
+const updateCategory = async (categoryId: string, payload: Icategory) => {
+
+    if (!payload) {
+        throw new Error("Must provide category information to update.");
+    }
+    const { name, description } = payload;
+
+    if (!name || !description) {
+        throw new Error("Some required fields are missing!");
+    }
+
+    const categoryExists = await prisma.category.findUniqueOrThrow({
+        where: {
+            id: categoryId
+        }
+    })
+
+    const updatedCategory = await prisma.category.update({
+        where: {
+            id: categoryId
+        },
+        data: {
+            ...payload
+        }
+    })
+    return updatedCategory;
+}
+
 const deleteCategory = async (categoryId: string) => {
     const categoryExists = await prisma.category.findUniqueOrThrow({
         where: {
@@ -39,5 +68,6 @@ const deleteCategory = async (categoryId: string) => {
 export const categoryService = {
     createCategoryInDB,
     getAllCategoryFromDB,
-    deleteCategory
+    deleteCategory,
+    updateCategory
 }
