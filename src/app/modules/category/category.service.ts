@@ -30,8 +30,8 @@ const updateCategory = async (categoryId: string, payload: Icategory) => {
     }
     const { name, description } = payload;
 
-    if (!name || !description) {
-        throw new Error("Some required fields are missing!");
+    if (!name && !description) {
+        throw new Error("At least one field is required");
     }
 
     const categoryExists = await prisma.category.findUniqueOrThrow({
