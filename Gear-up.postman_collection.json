@@ -281,7 +281,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \r\n    \"email\" : \"pitchperfect@gearup.test\",\r\n    \"password\" : \"Password123!\"\r\n}",
+              "raw": "{\r\n    \r\n    \"email\" : \"user37@gmail.com\",\r\n    \"password\" : \"Password123!\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1196,6 +1196,124 @@
               "body": "{\n    \"success\": true,\n    \"message\": \"Category deleted successfully\"\n}"
             }
           ]
+        },
+        {
+          "name": "Update_Category",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"description\" : \"camping description\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gearup-backend-gold.vercel.app/api/category/39d97cdd-3114-4133-9849-0359d060ea04",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-gold",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "category",
+                "39d97cdd-3114-4133-9849-0359d060ea04"
+              ]
+            },
+            "description": "### **Update Category By Admin**\n\nThis is the section where Admin can update their created category, They can either update the name of the category or they can update the description of the category. Any other person rather than an Admin is prohibited in this route."
+          },
+          "response": [
+            {
+              "name": "Update_Category",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"description\" : \"camping description\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://gearup-backend-gold.vercel.app/api/category/39d97cdd-3114-4133-9849-0359d060ea04",
+                  "protocol": "https",
+                  "host": [
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "category",
+                    "39d97cdd-3114-4133-9849-0359d060ea04"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sun, 12 Jul 2026 10:07:42 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"f1-llh0w4XV7AbHFTSy2GJkSBV2fBc\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::cmwcg-1783850860590-1ef6882f0e96"
+                },
+                {
+                  "key": "content-length",
+                  "value": "241"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Category updated successfully\",\n    \"data\": {\n        \"id\": \"39d97cdd-3114-4133-9849-0359d060ea04\",\n        \"name\": \"Camping\",\n        \"description\": \"camping description\",\n        \"createdAt\": \"2026-07-12T10:03:20.954Z\",\n        \"updateAt\": \"2026-07-12T10:07:42.629Z\"\n    }\n}"
+            }
+          ]
         }
       ],
       "description": "## Category\n\nThis folder manages gear categories on the Gear-up platform (e.g., Fitness, Camping, Water Sports). Categories are used to organize and filter gear listings. Creating and deleting categories is restricted to **admin** users, while fetching categories is publicly accessible."
@@ -1593,7 +1711,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": " {\r\n        \"title\": \"FIFA Quality Football 2026\",\r\n        \"description\": \"Official size 5 football suitable for professional matches.\",\r\n        \"brand\": \"nEW ZERSY\",\r\n        \"pricePerDay\": \"150\",\r\n        \"stock\": 30\r\n\r\n }",
+              "raw": " {\r\n        \"title\": \"FIFA Quality upd\",\r\n        \"description\": \"Official size 5 football suitable for professional matches.\",\r\n        \"brand\": \"nEW ZERSY\",\r\n        \"pricePerDay\": \"150\",\r\n        \"stock\": 30\r\n\r\n }",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1601,7 +1719,7 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-gold.vercel.app/api/gear/44798032-480b-4416-9af9-682f0a144448",
+              "raw": "https://gearup-backend-gold.vercel.app/api/gear/361f0010-5f60-4f64-b37e-3e0927348451",
               "protocol": "https",
               "host": [
                 "gearup-backend-gold",
@@ -1611,7 +1729,7 @@
               "path": [
                 "api",
                 "gear",
-                "44798032-480b-4416-9af9-682f0a144448"
+                "361f0010-5f60-4f64-b37e-3e0927348451"
               ]
             },
             "description": "## Update Gear\n\nUpdates the details of an existing gear listing identified by its ID. The request body can include any fields to be updated, such as name, description, price, or availability (partial update). This endpoint is restricted to the **provider** who owns the gear listing and requires a valid provider JWT token in the `Authorization` header. Replace `{id}` in the URL with the gear's ID."
@@ -1849,7 +1967,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"gearId\": \"6091289e-54ab-4804-b8c6-4da8f7c8af43\",\r\n  \"quantity\": 1,\r\n  \"startDate\": \"2026-07-10\",\r\n  \"endDate\": \"2026-07-12\"\r\n}",
+              "raw": "{\r\n  \"gearId\": \"fa15bca3-1bdd-437b-bed3-4ca6f46c1e79\",\r\n  \"quantity\": 1,\r\n  \"startDate\": \"2026-07-12\",\r\n  \"endDate\": \"2026-07-13\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
