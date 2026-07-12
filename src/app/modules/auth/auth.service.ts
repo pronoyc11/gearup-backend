@@ -48,6 +48,15 @@ const registerUserInDB = async (payload: IregisterPayload) => {
 }
 
 const loginUserInDB = async (payload: { email: string, password: string }) => {
+    if (!payload) {
+        throw new Error("Please provide required informations");
+    }
+
+    const { email } = payload;
+
+    if (!email || !payload.password) {
+        throw new Error("Required fields are missing!");
+    }
     const userExist = await prisma.user.findUniqueOrThrow({
         where: {
             email: payload.email
