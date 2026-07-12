@@ -9,4 +9,5 @@ const router = Router();
 router.post("/create", auth(UserRole.CUSTOMER, UserRole.ADMIN), reviewController.createReview);
 router.get("/:gearId", reviewController.getAllReviews);
 router.patch("/:reviewId", auth(UserRole.CUSTOMER, UserRole.ADMIN), reviewController.updateReview);
+router.delete("/:reviewId", auth(UserRole.CUSTOMER, UserRole.ADMIN), reviewController.deleteReview);
 export const reviewRouter = router;

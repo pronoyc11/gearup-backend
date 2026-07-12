@@ -112,9 +112,31 @@ const updateReview = async (reviewId: string, userId: string, payload: IReviewUp
     return updatedReview;
 }
 
+const deleteReview = async (reviewId: string, userId: string) => {
+    const reviewExists = await prisma.review.findUnique({
+        where: {
+            id: reviewId
+        }
+    });
+    if (!reviewExists) {
+        throw new Error("No review exists with this id.");
+    }
+    if (reviewExists.customerId !== userId) {
+        throw new Error("You don't own this review!");
+    }
+    await prisma.review.delete({
+        where: {
+            id: reviewId
+        }
+    });
+
+    return null;
+
+}
 
 export const reviewService = {
     createReview,
     getAllReviews,
-    updateReview
+    updateReview,
+    deleteReview
 }

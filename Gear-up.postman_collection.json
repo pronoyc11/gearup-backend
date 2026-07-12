@@ -3676,6 +3676,232 @@
               "body": "{\n    \"success\": true,\n    \"message\": \"Reviews retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": \"5e3ab147-d17c-45e2-84a1-8a2026c16345\",\n            \"customerId\": \"ac835f45-1d08-4139-a8fc-5b1f5907e3c2\",\n            \"gearId\": \"6091289e-54ab-4804-b8c6-4da8f7c8af43\",\n            \"rentalOrderId\": \"2897c532-f581-4b2f-a971-30d897e6dbec\",\n            \"rating\": 5,\n            \"comment\": \"So cool\",\n            \"createdAt\": \"2026-07-10T13:19:44.842Z\",\n            \"updatedAt\": \"2026-07-10T13:19:44.842Z\",\n            \"customer\": {\n                \"name\": \"user1NameUpdate\"\n            }\n        }\n    ]\n}"
             }
           ]
+        },
+        {
+          "name": "Update Review",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"rating\" : 4,\r\n    \"comment\" :\"So cool\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gearup-backend-gold.vercel.app/api/review/30a58e45-d6be-46e9-811c-b55691642188",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-gold",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "review",
+                "30a58e45-d6be-46e9-811c-b55691642188"
+              ]
+            },
+            "description": "### **Update Review**  \nUser can update their own review."
+          },
+          "response": [
+            {
+              "name": "Update Review",
+              "originalRequest": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"rating\" : 4,\r\n    \"comment\" :\"So cool\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "https://gearup-backend-gold.vercel.app/api/review/30a58e45-d6be-46e9-811c-b55691642188",
+                  "protocol": "https",
+                  "host": [
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "review",
+                    "30a58e45-d6be-46e9-811c-b55691642188"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sun, 12 Jul 2026 19:46:46 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"175-wdv0ZLfD/fPfSYLNkgiMWE4qKDw\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::54d4h-1783885604068-7230a4fabedf"
+                },
+                {
+                  "key": "content-length",
+                  "value": "373"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Review updated successfully\",\n    \"data\": {\n        \"id\": \"30a58e45-d6be-46e9-811c-b55691642188\",\n        \"customerId\": \"ac835f45-1d08-4139-a8fc-5b1f5907e3c2\",\n        \"gearId\": \"fa15bca3-1bdd-437b-bed3-4ca6f46c1e79\",\n        \"rentalOrderId\": \"1e0023de-39c4-4ec6-8dd1-ad4b4c350d86\",\n        \"rating\": 4,\n        \"comment\": \"So cool\",\n        \"createdAt\": \"2026-07-12T19:38:37.037Z\",\n        \"updatedAt\": \"2026-07-12T19:46:46.521Z\"\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete_Review",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "https://gearup-backend-gold.vercel.app/api/review/30a58e45-d6be-46e9-811c-b55691642188",
+              "protocol": "https",
+              "host": [
+                "gearup-backend-gold",
+                "vercel",
+                "app"
+              ],
+              "path": [
+                "api",
+                "review",
+                "30a58e45-d6be-46e9-811c-b55691642188"
+              ]
+            },
+            "description": "### Delete Review\n\nUser can delete tneir own review"
+          },
+          "response": [
+            {
+              "name": "Delete_Review",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": ""
+                },
+                "url": {
+                  "raw": "https://gearup-backend-gold.vercel.app/api/review/30a58e45-d6be-46e9-811c-b55691642188",
+                  "protocol": "https",
+                  "host": [
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
+                  ],
+                  "path": [
+                    "api",
+                    "review",
+                    "30a58e45-d6be-46e9-811c-b55691642188"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": null,
+              "header": [
+                {
+                  "key": ":status",
+                  "value": 200
+                },
+                {
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
+                },
+                {
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "date",
+                  "value": "Sun, 12 Jul 2026 19:51:58 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"38-jxJ1JtcaBbSo9ccWodgsZETBEvI\""
+                },
+                {
+                  "key": "server",
+                  "value": "Vercel"
+                },
+                {
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                  "key": "x-powered-by",
+                  "value": "Express"
+                },
+                {
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
+                },
+                {
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::rk8h9-1783885915589-a976cfe31947"
+                },
+                {
+                  "key": "content-length",
+                  "value": "56"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"success\": true,\n    \"message\": \"Review deleted successfully\"\n}"
+            }
+          ]
         }
       ],
       "description": "## Reviews\n\nThis folder manages gear reviews on the Gear-up platform. Customers who have completed a rental can submit a review for the gear they rented, and anyone can view reviews for a specific gear item. Reviews help other users make informed rental decisions based on community feedback."
