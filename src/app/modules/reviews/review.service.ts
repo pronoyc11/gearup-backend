@@ -80,6 +80,9 @@ const updateReview = async (reviewId: string, userId: string, payload: IReviewUp
     }
     const { rating, comment } = payload;
 
+    if (rating && (rating > 5 || rating < 1)) {
+        throw new Error("You can only rate out of 5.");
+    }
     if (!rating && !comment) {
         throw new Error("At least one field is required");
     }
