@@ -47,6 +47,28 @@ Password: Password123!
 - PostgreSQL database
 - Stripe account for payment checkout and webhook testing
 
+## Project Dependencies
+
+Main runtime dependencies:
+
+- `express` - API server framework
+- `@prisma/client`, `@prisma/adapter-pg`, `pg` - Prisma ORM and PostgreSQL support
+- `jsonwebtoken` - JWT authentication
+- `bcrypt` - Password hashing
+- `cookie-parser` - Cookie parsing for token support
+- `cors` - Cross-origin request handling
+- `dotenv` - Environment variable loading
+- `stripe` - Stripe checkout and webhook integration
+- `zod` - Request validation support
+- `http-status-codes` - HTTP status code constants
+
+Development and build dependencies:
+
+- `typescript`, `tsx`, `tsdown` - TypeScript development and production builds
+- `prisma` - Prisma schema, migration, and client generation tools
+- `nodemon` - Development server restart helper
+- `@types/*` packages - TypeScript type definitions
+
 ## Installation
 
 ```bash
