@@ -1,6 +1,6 @@
 # GearUp Backend
 
-GearUp Backend is a REST API for a sports and equipment rental platform. It supports customer registration, provider-managed gear listings, rental orders, provider order workflows, Stripe checkout payments, reviews, and admin management.
+GearUp Backend is a REST API for a sports and equipment rental marketplace. Customers can browse gear, create multi-item rental orders, pay through Stripe Checkout, and review returned items. Providers manage gear and fulfill their own rental order items, while admins can manage users, gear, categories, rentals, and payments.
 
 ## Project Links
 
@@ -8,66 +8,39 @@ GearUp Backend is a REST API for a sports and equipment rental platform. It supp
 - Live API: https://gearup-backend-gold.vercel.app
 - API Docs: https://documenter.getpostman.com/view/29611624/2sBY4LQMgk#gear-up-api
 - Demo Video: https://youtu.be/atEantVfHDg
-
-## Demo Admin Credentials
-
-```text
-Email: user3@gmail.com
-Password: Password123!
-```
+- Postman Collection: `Gear-up.postman_collection.json`
 
 ## Tech Stack
 
-- Node.js with Express 5
-- TypeScript
+- Node.js, Express 5, and TypeScript
 - Prisma 7 with PostgreSQL
-- JWT authentication
-- Cookie and Bearer token auth support
-- Stripe Checkout and webhooks
-- Zod-ready validation structure
-- tsdown for production builds
+- JWT auth with bearer-token and cookie support
+- Stripe Checkout and Stripe webhooks
+- bcrypt password hashing
+- tsdown production build
+- Vercel deployment config
 
 ## Core Features
 
-- User registration and login for `CUSTOMER` and `PROVIDER` roles
-- Admin-only user, rental, gear, and category management
-- Provider gear creation, update, and deletion
-- Public gear browsing with filtering, searching, sorting, and pagination
-- Customer rental order creation and cancellation
-- Provider rental status updates with controlled status transitions
-- Stripe checkout session creation for confirmed rentals
-- Stripe webhook handling for successful checkout completion
-- Customer reviews after returned rentals
-- Seed data for demo users, categories, gear items, rentals, payments, and reviews
+- Public registration/login for `CUSTOMER` and `PROVIDER` users
+- Admin-only user activation/suspension
+- Category create, update, delete, and public listing
+- Provider gear create/update/delete with public browsing
+- Gear search, price filtering, category filtering, sorting, and pagination
+- Multi-item rental orders with items from one or more providers
+- Provider-level rental item status updates
+- Automatic parent order status sync from item statuses
+- Stripe checkout for fully confirmed rental orders
+- Stripe webhook payment confirmation
+- Review creation, update, and deletion for returned rental items
+- Seed data for users, categories, gear, rentals, payments, and reviews
 
 ## Requirements
 
-- Node.js 24 or compatible with the project build target
+- Node.js 24 or compatible with the configured build target
 - npm
-- PostgreSQL database
-- Stripe account for payment checkout and webhook testing
-
-## Project Dependencies
-
-Main runtime dependencies:
-
-- `express` - API server framework
-- `@prisma/client`, `@prisma/adapter-pg`, `pg` - Prisma ORM and PostgreSQL support
-- `jsonwebtoken` - JWT authentication
-- `bcrypt` - Password hashing
-- `cookie-parser` - Cookie parsing for token support
-- `cors` - Cross-origin request handling
-- `dotenv` - Environment variable loading
-- `stripe` - Stripe checkout and webhook integration
-- `zod` - Request validation support
-- `http-status-codes` - HTTP status code constants
-
-Development and build dependencies:
-
-- `typescript`, `tsx`, `tsdown` - TypeScript development and production builds
-- `prisma` - Prisma schema, migration, and client generation tools
-- `nodemon` - Development server restart helper
-- `@types/*` packages - TypeScript type definitions
+- PostgreSQL
+- Stripe account for checkout and webhook testing
 
 ## Installation
 
@@ -77,7 +50,7 @@ npm install
 
 ## Environment Variables
 
-Create a `.env` file in the project root. Do not commit real secrets.
+Create a `.env` file in the project root.
 
 ```env
 PORT=5000
@@ -87,7 +60,6 @@ JWT_ACCESS_SECRET="your-access-token-secret"
 JWT_ACCESS_EXPIRES_IN="1d"
 BCRYPT_SALT=10
 
-STRIPE_PUBLIC_KEY="your-stripe-public-key"
 STRIPE_SECRET_KEY="your-stripe-secret-key"
 STRIPE_WEBHOOK_SECRET="your-stripe-webhook-secret"
 
@@ -96,33 +68,21 @@ CLIENT_URL="http://localhost:3000"
 
 ## Database Setup
 
-This project uses Prisma schema files from `prisma/schema` and stores migrations in `prisma/migrations`.
-
-Generate the Prisma client:
+Prisma is configured in `prisma.config.ts` to read schema files from `prisma/schema` and migrations from `prisma/migrations`.
 
 ```bash
 npx prisma generate
-```
-
-Run migrations:
-
-```bash
 npx prisma migrate dev
-```
-
-Seed the database:
-
-```bash
 npm run seed
 ```
 
-The seed script creates demo users, categories, gear items, rentals, payments, and reviews. Seeded users share this password:
+Seeded users share this password:
 
 ```text
 Password123!
 ```
 
-Example seeded accounts:
+Seeded accounts:
 
 | Role | Email |
 | --- | --- |
@@ -134,46 +94,26 @@ Example seeded accounts:
 | Customer | `tanvir@gearup.test` |
 | Customer | `nabila@gearup.test` |
 
-## Running the Project
+## Scripts
 
-Start the development server:
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the development server with `tsx watch` |
+| `npm run build` | Build `src/server.ts` into `dist` with tsdown |
+| `npm start` | Run the compiled server from `dist/server.mjs` |
+| `npm run seed` | Seed the database |
 
-```bash
-npm run dev
-```
-
-Build for production:
-
-```bash
-npm run build
-```
-
-Start the compiled server:
-
-```bash
-npm start
-```
-
-Default base URL:
+Default local API URL:
 
 ```text
 http://localhost:5000
 ```
-
-## Live Deployments
-
-You can use either of these live API base URLs:
-
-- Vercel: https://gearup-backend-gold.vercel.app
-- Render: https://gearup-backend-soqv.onrender.com
 
 Health/root endpoint:
 
 ```http
 GET /
 ```
-
-Response:
 
 ```json
 {
@@ -183,9 +123,7 @@ Response:
 
 ## Authentication
 
-Protected routes use JWT authentication. After login, the API returns an `accessToken` and also sets an `accessToken` cookie.
-
-You can authenticate either with the cookie or with an Authorization header:
+After login, the API returns an `accessToken` and sets an `accessToken` cookie.
 
 ```http
 Authorization: Bearer <accessToken>
@@ -197,7 +135,7 @@ Supported roles:
 - `CUSTOMER`
 - `PROVIDER`
 
-User accounts can have one of these statuses:
+User statuses:
 
 - `ACTIVE`
 - `SUSPENDED`
@@ -226,34 +164,15 @@ Register body:
 }
 ```
 
-Login body:
-
-```json
-{
-  "email": "ayesha@example.com",
-  "password": "Password123!"
-}
-```
-
 `ADMIN` users cannot be created through public registration.
 
 ### User
 
 | Method | Endpoint | Access | Description |
 | --- | --- | --- | --- |
-| `GET` | `/api/user/me` | Admin, Customer, Provider | Get current user profile |
-| `PATCH` | `/api/user/update-profile` | Admin, Customer, Provider | Update current user profile |
-| `DELETE` | `/api/user/delete-profile` | Admin, Customer, Provider | Delete current user profile |
-
-Update profile body example:
-
-```json
-{
-  "name": "Updated Name",
-  "phone": "+8801711111111",
-  "address": "Banani, Dhaka"
-}
-```
+| `GET` | `/api/user/me` | Admin, Customer, Provider | Get current profile |
+| `PATCH` | `/api/user/update-profile` | Admin, Customer, Provider | Update current profile |
+| `DELETE` | `/api/user/delete-profile` | Admin, Customer, Provider | Delete current profile |
 
 ### Category
 
@@ -261,9 +180,10 @@ Update profile body example:
 | --- | --- | --- | --- |
 | `POST` | `/api/category` | Admin | Create category |
 | `GET` | `/api/category` | Public | Get all categories |
+| `PATCH` | `/api/category/:categoryId` | Admin | Update category |
 | `DELETE` | `/api/category/:categoryId` | Admin | Delete category |
 
-Create category body:
+Create/update category body:
 
 ```json
 {
@@ -308,21 +228,21 @@ Gear availability values:
 - `OUT_OF_STOCK`
 - `MAINTENANCE`
 
-The public `GET /api/gear` endpoint supports these query parameters:
+`GET /api/gear` query parameters:
 
-| Query | Description | Default / Values |
-| --- | --- | --- |
-| `searchTerm` | Case-insensitive search across gear `title`, `brand`, and `description` | Optional |
-| `minPrice` | Minimum `pricePerDay` filter | Optional number |
-| `maxPrice` | Maximum `pricePerDay` filter | Optional number |
-| `availability` | Filter by gear availability | `AVAILABLE`, `OUT_OF_STOCK`, `MAINTENANCE` |
-| `brand` | Exact brand filter | Optional |
-| `title` | Exact title filter | Optional |
-| `categoryName` | Exact category name filter | Optional |
-| `page` | Page number for pagination | Optional, starts at `1` |
-| `limit` | Number of items per page | Defaults to `5` |
-| `sortBy` | Field name to sort by | Defaults to `createdAt` |
-| `sortOrder` | Sort direction | `asc` or `desc`, defaults to `asc` |
+| Query | Description |
+| --- | --- |
+| `searchTerm` | Case-insensitive search across title, brand, and description |
+| `minPrice` | Minimum `pricePerDay` |
+| `maxPrice` | Maximum `pricePerDay` |
+| `availability` | `AVAILABLE`, `OUT_OF_STOCK`, or `MAINTENANCE` |
+| `brand` | Exact brand match |
+| `title` | Exact title match |
+| `categoryName` | Exact category name match |
+| `page` | Page number |
+| `limit` | Items per page, defaults to `5` |
+| `sortBy` | Sort field, defaults to `createdAt` |
+| `sortOrder` | `asc` or `desc`, defaults to `asc` |
 
 Example:
 
@@ -332,40 +252,57 @@ GET /api/gear?searchTerm=football&minPrice=100&maxPrice=1000&page=1&limit=10&sor
 
 ### Customer Rentals
 
+Rental orders now contain an `items` array. Each item stores its own `gearId`, `providerId`, quantity, subtotal, and status.
+
 | Method | Endpoint | Access | Description |
 | --- | --- | --- | --- |
 | `POST` | `/api/rental/customer` | Customer, Admin | Create rental order |
 | `GET` | `/api/rental/customer` | Customer, Admin | View own rental orders |
+| `GET` | `/api/rental/customer/:orderId` | Customer, Admin | View own rental order details |
 | `PATCH` | `/api/rental/customer/cancel/:orderId` | Customer | Cancel own placed order |
 
 Create rental body:
 
 ```json
 {
-  "gearId": "gear-uuid",
-  "quantity": 2,
-  "startDate": "2026-07-15",
-  "endDate": "2026-07-17"
+  "startDate": "2026-08-01",
+  "endDate": "2026-08-03",
+  "items": [
+    {
+      "gearId": "gear-uuid-1",
+      "quantity": 1
+    },
+    {
+      "gearId": "gear-uuid-2",
+      "quantity": 2
+    }
+  ]
 }
 ```
 
 Rental creation rules:
 
-- Gear must exist.
-- Gear availability must be `AVAILABLE`.
+- At least one item is required.
+- Duplicate gear items are not allowed in the same order.
+- Every item must include `gearId` and a quantity of at least `1`.
+- Gear must exist and be `AVAILABLE`.
 - Requested quantity cannot exceed stock.
+- Dates must use `YYYY-MM-DD`.
 - Start date cannot be in the past.
 - End date must be same day or after start date.
-- New orders start with `PLACED` status.
+- New orders and items start with `PLACED` status.
 
 ### Provider Rentals
 
+Providers operate on rental order items, not the whole parent order. Admins can see and update all provider items.
+
 | Method | Endpoint | Access | Description |
 | --- | --- | --- | --- |
-| `GET` | `/api/rental/provider` | Admin, Provider | View rental orders for provider gear |
-| `PATCH` | `/api/rental/provider/:orderId` | Admin, Provider | Update rental order status |
+| `GET` | `/api/rental/provider` | Admin, Provider | View provider rental items |
+| `GET` | `/api/rental/provider/:orderId` | Admin, Provider | View order details scoped to provider items |
+| `PATCH` | `/api/rental/provider/items/:itemId` | Admin, Provider | Update rental order item status |
 
-Update rental status body:
+Update rental item body:
 
 ```json
 {
@@ -373,21 +310,11 @@ Update rental status body:
 }
 ```
 
-Rental status values:
-
-- `PLACED`
-- `CONFIRMED`
-- `PAID`
-- `PICKED_UP`
-- `RETURNED`
-- `LATE_RETURN`
-- `CANCELLED`
-
-Allowed status transitions:
+Provider item status transitions:
 
 | Current | Next |
 | --- | --- |
-| `PLACED` | `CONFIRMED`, `CANCELLED` |
+| `PLACED` | `CONFIRMED` |
 | `CONFIRMED` | `PAID` |
 | `PAID` | `PICKED_UP` |
 | `PICKED_UP` | `RETURNED`, `LATE_RETURN` |
@@ -395,13 +322,25 @@ Allowed status transitions:
 | `LATE_RETURN` | None |
 | `CANCELLED` | None |
 
-Providers cannot manually set `PAID`; successful Stripe payment updates the order to `PAID`.
+Providers cannot manually set `PAID`; Stripe webhook completion moves confirmed items to `PAID`.
+
+Parent rental order status is derived from item statuses:
+
+- Some confirmed items: `PARTIALLY_CONFIRMED`
+- All confirmed items: `CONFIRMED`
+- Successful payment: `PAID`
+- Some picked up items: `PARTIALLY_PICKED_UP`
+- All picked up items: `PICKED_UP`
+- Some returned or late items: `PARTIALLY_RETURNED`
+- All returned or late items: `RETURNED`
+
+Stock decreases when an item is confirmed and increases when it is returned or marked late.
 
 ### Payment
 
 | Method | Endpoint | Access | Description |
 | --- | --- | --- | --- |
-| `POST` | `/api/payment/create-session` | Customer, Admin | Create Stripe checkout session |
+| `POST` | `/api/payment/create-session` | Customer, Admin | Create Stripe Checkout session |
 | `POST` | `/api/payment/webhook` | Stripe | Handle Stripe webhook events |
 | `GET` | `/api/payment` | Admin, Customer | View payments |
 | `GET` | `/api/payment/:paymentId` | Customer, Admin | View payment details |
@@ -417,17 +356,26 @@ Create checkout session body:
 Payment rules:
 
 - Rental order must exist.
-- Rental order must belong to the authenticated customer.
-- Rental order status must be `CONFIRMED`.
-- A successfully paid order cannot be paid again.
+- Rental order must belong to the authenticated customer unless requester is admin.
+- Parent order status must be `CONFIRMED`, meaning all provider items are confirmed.
+- Successfully paid orders cannot be paid again.
 - Stripe amount is charged in `bdt`.
+- A pending payment is stored with provider `STRIPE`.
+- `checkout.session.completed` marks the payment `SUCCESS`, sets `paidAt`, and moves the order/items to `PAID`.
 
-Payment status values:
+Payment statuses:
 
 - `PENDING`
 - `SUCCESS`
 - `FAILED`
 - `REFUNDED`
+
+Payment provider enum values:
+
+- `STRIPE`
+- `SSLCOMMERZ`
+
+Only Stripe checkout is currently wired in the route/service layer.
 
 ### Reviews
 
@@ -435,13 +383,14 @@ Payment status values:
 | --- | --- | --- | --- |
 | `POST` | `/api/review/create` | Customer, Admin | Create review |
 | `GET` | `/api/review/:gearId` | Public | Get reviews for a gear item |
+| `PATCH` | `/api/review/:reviewId` | Customer, Admin | Update own review |
+| `DELETE` | `/api/review/:reviewId` | Customer, Admin | Delete own review |
 
 Create review body:
 
 ```json
 {
-  "gearId": "gear-uuid",
-  "rentalOrderId": "rental-order-uuid",
+  "rentalOrderItemId": "rental-order-item-uuid",
   "rating": 5,
   "comment": "Clean equipment and smooth pickup."
 }
@@ -449,11 +398,10 @@ Create review body:
 
 Review rules:
 
-- Customer must own the rental order.
-- Rental order must be `RETURNED`.
-- Review gear must match the rented gear.
-- Rating must be from 1 to 5.
-- Each rental order can have one review.
+- Customer must own the rental order that contains the item.
+- Rental order item must be `RETURNED` or `LATE_RETURN`.
+- Rating must be from `1` to `5`.
+- Each rental order item can have one review.
 
 ### Admin
 
@@ -473,16 +421,24 @@ Update user status body:
 }
 ```
 
-Admin gear and rental list endpoints support:
+Admin gear and rental list endpoints support `page` and `limit` query parameters.
 
-| Query | Description |
-| --- | --- |
-| `page` | Page number |
-| `limit` | Items per page |
+## Multi-Provider Rental Flow
+
+1. Customer creates one rental order with multiple `items`.
+2. Each provider sees only the order items that belong to them.
+3. Providers confirm their own items with `PATCH /api/rental/provider/items/:itemId`.
+4. When all items are confirmed, the parent order becomes `CONFIRMED`.
+5. Customer creates a Stripe checkout session for the order.
+6. Stripe webhook marks the payment `SUCCESS` and updates confirmed items to `PAID`.
+7. Providers move their items through `PICKED_UP` and then `RETURNED` or `LATE_RETURN`.
+8. Customer can review each returned rental order item.
+
+For a step-by-step manual testing guide, see `MULTI_PROVIDER_TESTING.md`.
 
 ## Response Shape
 
-Most successful responses use this shape:
+Successful responses generally use:
 
 ```json
 {
@@ -505,7 +461,21 @@ Errors are returned by the global error handler:
 }
 ```
 
-Prisma errors are mapped for common cases such as duplicate keys, foreign key failures, missing records, and database connection/authentication issues.
+## Stripe Webhooks
+
+The webhook route is mounted before JSON parsing so Stripe can verify the raw request body:
+
+```http
+POST /api/payment/webhook
+```
+
+For local testing:
+
+```bash
+stripe listen --forward-to localhost:5000/api/payment/webhook
+```
+
+Copy the webhook signing secret into `STRIPE_WEBHOOK_SECRET`.
 
 ## Project Structure
 
@@ -542,33 +512,20 @@ Prisma errors are mapped for common cases such as duplicate keys, foreign key fa
 |       |   `-- user
 |       `-- utils
 |-- Gear-up.postman_collection.json
+|-- MULTI_PROVIDER_TESTING.md
 |-- package.json
 |-- prisma.config.ts
 |-- tsconfig.json
-`-- tsdown.config.ts
+|-- tsdown.config.ts
+`-- vercel.json
 ```
 
-## Postman Collection
-Here is the APIDocs : https://documenter.getpostman.com/view/29611624/2sBY4LQMgk#gear-up-api
+## Deployment
 
-The repository aslo includes a Postman collection:
+Build the project before deploying:
 
-```text
-Gear-up.postman_collection.json
+```bash
+npm run build
 ```
 
-Import it into Postman to test the API endpoints quickly. Set the base URL to your running server, for example:
-
-```text
-http://localhost:5000
-```
-
-## Notes for Stripe Webhooks
-
-The webhook endpoint is mounted before JSON parsing so Stripe can verify the raw request body:
-
-```http
-POST /api/payment/webhook
-```
-
-For local webhook testing, forward Stripe events to your local server and set `STRIPE_WEBHOOK_SECRET` from the Stripe CLI output.
+Vercel is configured to serve `dist/server.mjs` through `vercel.json`.
