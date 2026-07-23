@@ -281,7 +281,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \r\n    \"email\" : \"user37@gmail.com\",\r\n    \"password\" : \"Password123!\"\r\n}",
+              "raw": "{\r\n    \r\n    \"email\" : \"ironhouse@gearup.test\",\r\n    \"password\" : \"Password123!\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1967,7 +1967,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"gearId\": \"fa15bca3-1bdd-437b-bed3-4ca6f46c1e79\",\r\n  \"quantity\": 1,\r\n  \"startDate\": \"2026-07-12\",\r\n  \"endDate\": \"2026-07-13\"\r\n}",
+              "raw": "{\r\n  \"startDate\": \"2026-08-01\",\r\n  \"endDate\": \"2026-08-03\",\r\n  \"items\": [\r\n    {\r\n      \"gearId\": \"7773609b-a1fc-4a5f-bdc4-409102685dc8\",\r\n      \"quantity\": 1\r\n    },\r\n    {\r\n      \"gearId\": \"6fec0527-4cf0-40c5-824e-e73d63cb57d1\",\r\n      \"quantity\": 2\r\n    }\r\n  ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1998,7 +1998,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n  \"gearId\": \"6091289e-54ab-4804-b8c6-4da8f7c8af43\",\r\n  \"quantity\": 1,\r\n  \"startDate\": \"2026-07-20\",\r\n  \"endDate\": \"2026-07-22\"\r\n}",
+                  "raw": "{\r\n  \"startDate\": \"2026-08-01\",\r\n  \"endDate\": \"2026-08-03\",\r\n  \"items\": [\r\n    {\r\n      \"gearId\": \"7773609b-a1fc-4a5f-bdc4-409102685dc8\",\r\n      \"quantity\": 1\r\n    },\r\n    {\r\n      \"gearId\": \"6fec0527-4cf0-40c5-824e-e73d63cb57d1\",\r\n      \"quantity\": 2\r\n    }\r\n  ]\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -2006,12 +2006,12 @@
                   }
                 },
                 "url": {
-                  "raw": "https://gearup-backend-soqv.onrender.com/api/rental/customer",
+                  "raw": "https://gearup-backend-gold.vercel.app/api/rental/customer",
                   "protocol": "https",
                   "host": [
-                    "gearup-backend-soqv",
-                    "onrender",
-                    "com"
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
                   ],
                   "path": [
                     "api",
@@ -2029,64 +2029,52 @@
                   "value": 200
                 },
                 {
-                  "key": "date",
-                  "value": "Fri, 10 Jul 2026 11:51:46 GMT"
-                },
-                {
-                  "key": "content-type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "content-length",
-                  "value": "609"
-                },
-                {
                   "key": "access-control-allow-origin",
                   "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
                 },
                 {
                   "key": "content-encoding",
                   "value": "br"
                 },
                 {
-                  "key": "etag",
-                  "value": "W/\"41c-J4tV3RBDHWn5r8h96q12ohT6IiE\""
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
                 },
                 {
-                  "key": "rndr-id",
-                  "value": "08b6e1cd-d76f-4689"
+                  "key": "date",
+                  "value": "Thu, 23 Jul 2026 17:57:32 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"9f8-9L48flf8f2bVsup9q8UxRGfnv7o\""
                 },
                 {
                   "key": "server",
-                  "value": "cloudflare"
+                  "value": "Vercel"
                 },
                 {
-                  "key": "vary",
-                  "value": "Accept-Encoding"
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
                 },
                 {
                   "key": "x-powered-by",
                   "value": "Express"
                 },
                 {
-                  "key": "x-render-origin-server",
-                  "value": "Render"
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
                 },
                 {
-                  "key": "cf-cache-status",
-                  "value": "DYNAMIC"
-                },
-                {
-                  "key": "cf-ray",
-                  "value": "a18f5b924d8472e3-CGP"
-                },
-                {
-                  "key": "alt-svc",
-                  "value": "h3=\":443\"; ma=86400"
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::drxsr-1784829448063-2e9a142f4394"
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Rental Order created successfully\",\n    \"data\": {\n        \"rentalDays\": 3,\n        \"rentalOrder\": {\n            \"id\": \"2897c532-f581-4b2f-a971-30d897e6dbec\",\n            \"customerId\": \"ac835f45-1d08-4139-a8fc-5b1f5907e3c2\",\n            \"gearId\": \"6091289e-54ab-4804-b8c6-4da8f7c8af43\",\n            \"quantity\": \"1\",\n            \"totalAmount\": \"1800\",\n            \"startDate\": \"2026-07-20T00:00:00.000Z\",\n            \"endDate\": \"2026-07-22T00:00:00.000Z\",\n            \"status\": \"PLACED\",\n            \"createdAt\": \"2026-07-10T11:51:45.134Z\",\n            \"updatedAt\": \"2026-07-10T11:51:45.134Z\",\n            \"gear\": {\n                \"id\": \"6091289e-54ab-4804-b8c6-4da8f7c8af43\",\n                \"providerId\": \"edfb8462-0640-4f25-91fd-57267c4bfb05\",\n                \"categoryId\": \"0a52dcf2-6ee4-43a1-a5e5-5f00adbba578\",\n                \"title\": \"Portable Football Goal Pair\",\n                \"description\": \"Pair of portable goals for five-a-side matches and training drills.\",\n                \"brand\": \"QuickPlay\",\n                \"pricePerDay\": \"600\",\n                \"stock\": 7,\n                \"specifications\": {\n                    \"setupTime\": \"3 minutes\",\n                    \"dimensions\": \"12ft x 6ft\",\n                    \"includesCarryBag\": true\n                },\n                \"availability\": \"AVAILABLE\",\n                \"image\": \"https://images.unsplash.com/photo-1522778119026-d647f0596c20\",\n                \"createdAt\": \"2026-07-09T12:06:27.362Z\",\n                \"updatedAt\": \"2026-07-09T19:34:47.065Z\"\n            }\n        }\n    }\n}"
+              "body": "{\n    \"success\": true,\n    \"message\": \"Rental Order created successfully\",\n    \"data\": {\n        \"rentalDays\": 3,\n        \"rentalOrder\": {\n            \"id\": \"3cfd96b5-bb51-45a8-a0ed-fce5d6a7bcb3\",\n            \"customerId\": \"9332849a-40b2-4a20-9c0a-332ce3e2b54b\",\n            \"totalAmount\": \"16800\",\n            \"startDate\": \"2026-08-01T00:00:00.000Z\",\n            \"endDate\": \"2026-08-03T00:00:00.000Z\",\n            \"status\": \"PLACED\",\n            \"createdAt\": \"2026-07-23T17:57:30.629Z\",\n            \"updatedAt\": \"2026-07-23T17:57:30.629Z\",\n            \"items\": [\n                {\n                    \"id\": \"aa1ff92b-afbb-40a8-be1d-daff770de67f\",\n                    \"rentalOrderId\": \"3cfd96b5-bb51-45a8-a0ed-fce5d6a7bcb3\",\n                    \"gearId\": \"7773609b-a1fc-4a5f-bdc4-409102685dc8\",\n                    \"providerId\": \"edfb8462-0640-4f25-91fd-57267c4bfb05\",\n                    \"quantity\": 1,\n                    \"pricePerDay\": \"600\",\n                    \"subtotal\": \"1800\",\n                    \"status\": \"PLACED\",\n                    \"createdAt\": \"2026-07-23T17:57:30.629Z\",\n                    \"updatedAt\": \"2026-07-23T17:57:30.629Z\",\n                    \"gear\": {\n                        \"id\": \"7773609b-a1fc-4a5f-bdc4-409102685dc8\",\n                        \"providerId\": \"edfb8462-0640-4f25-91fd-57267c4bfb05\",\n                        \"categoryId\": \"9b31663a-cfbe-4faa-b9a9-5e03f5411a46\",\n                        \"title\": \"Portable Football Goal Pair\",\n                        \"description\": \"Pair of portable goals for five-a-side matches and training drills.\",\n                        \"brand\": \"QuickPlay\",\n                        \"pricePerDay\": \"600\",\n                        \"stock\": 8,\n                        \"specifications\": {\n                            \"setupTime\": \"3 minutes\",\n                            \"dimensions\": \"12ft x 6ft\",\n                            \"includesCarryBag\": true\n                        },\n                        \"availability\": \"AVAILABLE\",\n                        \"image\": \"https://images.unsplash.com/photo-1522778119026-d647f0596c20\",\n                        \"createdAt\": \"2026-07-23T17:38:02.740Z\",\n                        \"updatedAt\": \"2026-07-23T17:38:02.740Z\"\n                    },\n                    \"provider\": {\n                        \"id\": \"edfb8462-0640-4f25-91fd-57267c4bfb05\",\n                        \"name\": \"Pitch Perfect Sports\",\n                        \"email\": \"pitchperfect@gearup.test\"\n                    }\n                },\n                {\n                    \"id\": \"109e05c3-e309-47e5-b101-246fcfd56952\",\n                    \"rentalOrderId\": \"3cfd96b5-bb51-45a8-a0ed-fce5d6a7bcb3\",\n                    \"gearId\": \"6fec0527-4cf0-40c5-824e-e73d63cb57d1\",\n                    \"providerId\": \"c342feb3-e9d8-452f-b123-6e299c3534ef\",\n                    \"quantity\": 2,\n                    \"pricePerDay\": \"2500\",\n                    \"subtotal\": \"15000\",\n                    \"status\": \"PLACED\",\n                    \"createdAt\": \"2026-07-23T17:57:30.629Z\",\n                    \"updatedAt\": \"2026-07-23T17:57:30.629Z\",\n                    \"gear\": {\n                        \"id\": \"6fec0527-4cf0-40c5-824e-e73d63cb57d1\",\n                        \"providerId\": \"c342feb3-e9d8-452f-b123-6e299c3534ef\",\n                        \"categoryId\": \"33753e9d-f9ba-4dad-a991-f16c62c69985\",\n                        \"title\": \"NordicTrack Commercial Treadmill\",\n                        \"description\": \"Motorized treadmill with incline control for endurance and interval training.\",\n                        \"brand\": \"NordicTrack\",\n                        \"pricePerDay\": \"2500\",\n                        \"stock\": 4,\n                        \"specifications\": {\n                            \"motor\": \"3.5 CHP\",\n                            \"incline\": \"0-15%\",\n                            \"foldable\": true,\n                            \"maxSpeed\": \"20 km/h\"\n                        },\n                        \"availability\": \"AVAILABLE\",\n                        \"image\": \"https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b\",\n                        \"createdAt\": \"2026-07-23T17:38:02.740Z\",\n                        \"updatedAt\": \"2026-07-23T17:38:02.740Z\"\n                    },\n                    \"provider\": {\n                        \"id\": \"c342feb3-e9d8-452f-b123-6e299c3534ef\",\n                        \"name\": \"Iron House Rentals\",\n                        \"email\": \"ironhouse@gearup.test\"\n                    }\n                }\n            ]\n        }\n    }\n}"
             }
           ]
         },
@@ -2346,7 +2334,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"status\" : \"CONFIRMED\"\r\n}",
+              "raw": "{\r\n    \"status\" : \"RETURNED\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -2354,7 +2342,7 @@
               }
             },
             "url": {
-              "raw": "https://gearup-backend-gold.vercel.app/api/rental/provider/8ce3dd37-8f80-4091-9d40-e4b9d18f09b4",
+              "raw": "https://gearup-backend-gold.vercel.app/api/rental/provider/items/107a8d00-b08c-46cb-a4ff-daeac520bbb6",
               "protocol": "https",
               "host": [
                 "gearup-backend-gold",
@@ -2365,7 +2353,8 @@
                 "api",
                 "rental",
                 "provider",
-                "8ce3dd37-8f80-4091-9d40-e4b9d18f09b4"
+                "items",
+                "107a8d00-b08c-46cb-a4ff-daeac520bbb6"
               ]
             },
             "description": "## Update Order Status (Provider)\n\nAllows a provider to update the status of a rental order (e.g., approve, reject, or mark as returned). Replace `{id}` in the URL with the rental order's ID. The request body should include the new status value. This endpoint is restricted to **provider** users and requires a valid provider JWT token in the `Authorization` header."
@@ -2378,7 +2367,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n    \"status\" : \"CONFIRMED\"\r\n}",
+                  "raw": "{\r\n    \"status\" : \"RETURNED\"\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -2386,18 +2375,19 @@
                   }
                 },
                 "url": {
-                  "raw": "https://gearup-backend-soqv.onrender.com/api/rental/provider/2897c532-f581-4b2f-a971-30d897e6dbec",
+                  "raw": "https://gearup-backend-gold.vercel.app/api/rental/provider/items/107a8d00-b08c-46cb-a4ff-daeac520bbb6",
                   "protocol": "https",
                   "host": [
-                    "gearup-backend-soqv",
-                    "onrender",
-                    "com"
+                    "gearup-backend-gold",
+                    "vercel",
+                    "app"
                   ],
                   "path": [
                     "api",
                     "rental",
                     "provider",
-                    "2897c532-f581-4b2f-a971-30d897e6dbec"
+                    "items",
+                    "107a8d00-b08c-46cb-a4ff-daeac520bbb6"
                   ]
                 }
               },
@@ -2410,64 +2400,52 @@
                   "value": 200
                 },
                 {
-                  "key": "date",
-                  "value": "Fri, 10 Jul 2026 12:05:59 GMT"
-                },
-                {
-                  "key": "content-type",
-                  "value": "application/json; charset=utf-8"
-                },
-                {
-                  "key": "content-length",
-                  "value": "272"
-                },
-                {
                   "key": "access-control-allow-origin",
                   "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
                 },
                 {
                   "key": "content-encoding",
                   "value": "br"
                 },
                 {
-                  "key": "etag",
-                  "value": "W/\"1aa-05bdzwQckJbynrrwjcji8g42F0U\""
+                  "key": "content-type",
+                  "value": "application/json; charset=utf-8"
                 },
                 {
-                  "key": "rndr-id",
-                  "value": "3696eab9-3910-488c"
+                  "key": "date",
+                  "value": "Thu, 23 Jul 2026 19:00:21 GMT"
+                },
+                {
+                  "key": "etag",
+                  "value": "W/\"54b-st4VL2qgcHs81svGTgieVyW8vKU\""
                 },
                 {
                   "key": "server",
-                  "value": "cloudflare"
+                  "value": "Vercel"
                 },
                 {
-                  "key": "vary",
-                  "value": "Accept-Encoding"
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
                 },
                 {
                   "key": "x-powered-by",
                   "value": "Express"
                 },
                 {
-                  "key": "x-render-origin-server",
-                  "value": "Render"
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
                 },
                 {
-                  "key": "cf-cache-status",
-                  "value": "DYNAMIC"
-                },
-                {
-                  "key": "cf-ray",
-                  "value": "a18f7082a94ce893-CGP"
-                },
-                {
-                  "key": "alt-svc",
-                  "value": "h3=\":443\"; ma=86400"
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::s662z-1784833215879-aa4ac7d6e284"
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Order status updated successfully\",\n    \"data\": {\n        \"id\": \"2897c532-f581-4b2f-a971-30d897e6dbec\",\n        \"customerId\": \"ac835f45-1d08-4139-a8fc-5b1f5907e3c2\",\n        \"gearId\": \"6091289e-54ab-4804-b8c6-4da8f7c8af43\",\n        \"quantity\": \"1\",\n        \"totalAmount\": \"1800\",\n        \"startDate\": \"2026-07-20T00:00:00.000Z\",\n        \"endDate\": \"2026-07-22T00:00:00.000Z\",\n        \"status\": \"CONFIRMED\",\n        \"createdAt\": \"2026-07-10T11:51:45.134Z\",\n        \"updatedAt\": \"2026-07-10T12:05:58.452Z\"\n    }\n}"
+              "body": "{\n    \"success\": true,\n    \"message\": \"Order status updated successfully\",\n    \"data\": {\n        \"id\": \"107a8d00-b08c-46cb-a4ff-daeac520bbb6\",\n        \"rentalOrderId\": \"55803ad9-da83-461a-84d8-098e9927897a\",\n        \"gearId\": \"6fec0527-4cf0-40c5-824e-e73d63cb57d1\",\n        \"providerId\": \"c342feb3-e9d8-452f-b123-6e299c3534ef\",\n        \"quantity\": 2,\n        \"pricePerDay\": \"2500\",\n        \"subtotal\": \"15000\",\n        \"status\": \"RETURNED\",\n        \"createdAt\": \"2026-07-23T18:46:45.217Z\",\n        \"updatedAt\": \"2026-07-23T19:00:18.877Z\",\n        \"gear\": {\n            \"id\": \"6fec0527-4cf0-40c5-824e-e73d63cb57d1\",\n            \"providerId\": \"c342feb3-e9d8-452f-b123-6e299c3534ef\",\n            \"categoryId\": \"33753e9d-f9ba-4dad-a991-f16c62c69985\",\n            \"title\": \"NordicTrack Commercial Treadmill\",\n            \"description\": \"Motorized treadmill with incline control for endurance and interval training.\",\n            \"brand\": \"NordicTrack\",\n            \"pricePerDay\": \"2500\",\n            \"stock\": 0,\n            \"specifications\": {\n                \"motor\": \"3.5 CHP\",\n                \"incline\": \"0-15%\",\n                \"foldable\": true,\n                \"maxSpeed\": \"20 km/h\"\n            },\n            \"availability\": \"AVAILABLE\",\n            \"image\": \"https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b\",\n            \"createdAt\": \"2026-07-23T17:38:02.740Z\",\n            \"updatedAt\": \"2026-07-23T18:49:51.795Z\"\n        },\n        \"rentalOrder\": {\n            \"id\": \"55803ad9-da83-461a-84d8-098e9927897a\",\n            \"customerId\": \"9332849a-40b2-4a20-9c0a-332ce3e2b54b\",\n            \"totalAmount\": \"16800\",\n            \"startDate\": \"2026-08-01T00:00:00.000Z\",\n            \"endDate\": \"2026-08-03T00:00:00.000Z\",\n            \"status\": \"PARTIALLY_PICKED_UP\",\n            \"createdAt\": \"2026-07-23T18:46:45.217Z\",\n            \"updatedAt\": \"2026-07-23T18:59:35.487Z\"\n        }\n    }\n}"
             }
           ]
         },
@@ -3442,7 +3420,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"gearId\" : \"6091289e-54ab-4804-b8c6-4da8f7c8af43\",\r\n    \"rentalOrderId\" : \"2897c532-f581-4b2f-a971-30d897e6dbec\",\r\n    \"rating\" : 5,\r\n    \"comment\" :\"So cool\"\r\n}",
+              "raw": "{\r\n  \"rentalOrderItemId\": \"107a8d00-b08c-46cb-a4ff-daeac520bbb6\",\r\n  \"rating\": 5,\r\n  \"comment\": \"Great quality gear and smooth pickup.\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3473,7 +3451,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\r\n    \"gearId\" : \"6091289e-54ab-4804-b8c6-4da8f7c8af43\",\r\n    \"rentalOrderId\" : \"2897c532-f581-4b2f-a971-30d897e6dbec\",\r\n    \"rating\" : 5,\r\n    \"comment\" :\"So cool\"\r\n}",
+                  "raw": "{\r\n  \"rentalOrderItemId\": \"107a8d00-b08c-46cb-a4ff-daeac520bbb6\",\r\n  \"rating\": 5,\r\n  \"comment\": \"Great quality gear and smooth pickup.\"\r\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -3504,64 +3482,52 @@
                   "value": 200
                 },
                 {
-                  "key": "date",
-                  "value": "Fri, 10 Jul 2026 13:19:45 GMT"
+                  "key": "access-control-allow-origin",
+                  "value": "*"
+                },
+                {
+                  "key": "cache-control",
+                  "value": "public, max-age=0, must-revalidate"
                 },
                 {
                   "key": "content-type",
                   "value": "application/json; charset=utf-8"
                 },
                 {
-                  "key": "content-length",
-                  "value": "240"
-                },
-                {
-                  "key": "access-control-allow-origin",
-                  "value": "*"
-                },
-                {
-                  "key": "content-encoding",
-                  "value": "br"
+                  "key": "date",
+                  "value": "Thu, 23 Jul 2026 19:03:09 GMT"
                 },
                 {
                   "key": "etag",
-                  "value": "W/\"175-IuZSjwyCdot+c5v0GSK6M4psA9M\""
-                },
-                {
-                  "key": "rndr-id",
-                  "value": "32cff730-dd46-47a5"
+                  "value": "W/\"197-NhLhTCiImVXsiflCTpE1hxpzKes\""
                 },
                 {
                   "key": "server",
-                  "value": "cloudflare"
+                  "value": "Vercel"
                 },
                 {
-                  "key": "vary",
-                  "value": "Accept-Encoding"
+                  "key": "strict-transport-security",
+                  "value": "max-age=63072000; includeSubDomains; preload"
                 },
                 {
                   "key": "x-powered-by",
                   "value": "Express"
                 },
                 {
-                  "key": "x-render-origin-server",
-                  "value": "Render"
+                  "key": "x-vercel-cache",
+                  "value": "MISS"
                 },
                 {
-                  "key": "cf-cache-status",
-                  "value": "DYNAMIC"
+                  "key": "x-vercel-id",
+                  "value": "bom1::iad1::7csd6-1784833378888-425e62e2bab9"
                 },
                 {
-                  "key": "cf-ray",
-                  "value": "a18fdc960ab80eed-DAC"
-                },
-                {
-                  "key": "alt-svc",
-                  "value": "h3=\":443\"; ma=86400"
+                  "key": "content-length",
+                  "value": "407"
                 }
               ],
               "cookie": [],
-              "body": "{\n    \"success\": true,\n    \"message\": \"Review created successfully\",\n    \"data\": {\n        \"id\": \"5e3ab147-d17c-45e2-84a1-8a2026c16345\",\n        \"customerId\": \"ac835f45-1d08-4139-a8fc-5b1f5907e3c2\",\n        \"gearId\": \"6091289e-54ab-4804-b8c6-4da8f7c8af43\",\n        \"rentalOrderId\": \"2897c532-f581-4b2f-a971-30d897e6dbec\",\n        \"rating\": 5,\n        \"comment\": \"So cool\",\n        \"createdAt\": \"2026-07-10T13:19:44.842Z\",\n        \"updatedAt\": \"2026-07-10T13:19:44.842Z\"\n    }\n}"
+              "body": "{\n    \"success\": true,\n    \"message\": \"Review created successfully\",\n    \"data\": {\n        \"id\": \"ab10675b-d263-4a18-8e85-86418e44bcfb\",\n        \"customerId\": \"9332849a-40b2-4a20-9c0a-332ce3e2b54b\",\n        \"gearId\": \"6fec0527-4cf0-40c5-824e-e73d63cb57d1\",\n        \"rentalOrderItemId\": \"107a8d00-b08c-46cb-a4ff-daeac520bbb6\",\n        \"rating\": 5,\n        \"comment\": \"Great quality gear and smooth pickup.\",\n        \"createdAt\": \"2026-07-23T19:03:09.376Z\",\n        \"updatedAt\": \"2026-07-23T19:03:09.376Z\"\n    }\n}"
             }
           ]
         },
