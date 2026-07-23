@@ -54,7 +54,9 @@ export const auth = (...requiredRoles: UserRole[]) => {
         if (!userExist) {
             throw new Error("User doesn't exist with this email.");
         }
-
+        if (userExist.status === 'SUSPENDED') {
+            throw new Error("Your account has been suspended. Please contact support for assistance.");
+        }
         if (requiredRoles && !requiredRoles.includes(userExist.role)) {
             throw new Error("Forbidden")
         }

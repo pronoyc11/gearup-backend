@@ -138,7 +138,7 @@ const viewOwnPayment = async (customerId: string, isAdmin: boolean) => {
     return myPayments;
 }
 
-const getPaymentDetails = async (paymentId: string, userId: string) => {
+const getPaymentDetails = async (paymentId: string, userId: string, isAdmin: boolean) => {
     const paymentExist = await prisma.payment.findUnique({
         where: {
             id: paymentId
@@ -154,7 +154,7 @@ const getPaymentDetails = async (paymentId: string, userId: string) => {
     if (!paymentExist) {
         throw new Error("No such payments exist on this ID");
     }
-    if (paymentExist.order.customerId !== userId) {
+    if (!isAdmin && paymentExist.order.customerId !== userId) {
         throw new Error("This payment ID does not belong to any of yours.");
     }
     return paymentExist;

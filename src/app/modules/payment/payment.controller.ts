@@ -53,8 +53,10 @@ const viewOwnPayment = catchAsync(async (req: Request, res: Response, next: Next
 
 })
 const getPaymentDetails = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const result = await paymentService.getPaymentDetails(req.params.paymentId as string, req.user?.id as string);
-    
+
+    const isAdmin = req.user?.role === 'ADMIN';
+    const result = await paymentService.getPaymentDetails(req.params.paymentId as string, req.user?.id as string, isAdmin);
+
     sendResponse(res, {
         success: true,
         statusCode: 200,
