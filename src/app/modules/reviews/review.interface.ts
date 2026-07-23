@@ -1,7 +1,6 @@
 export interface IReview {
 
-    gearId: string;
-    rentalOrderId: string;
+    rentalOrderItemId: string;
     rating: number;
     comment?: string
 }

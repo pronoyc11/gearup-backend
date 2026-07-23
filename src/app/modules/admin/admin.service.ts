@@ -46,7 +46,19 @@ const fetchAllRentals = async (query: { limit?: string, page?: string }) => {
                     password: true
                 }
             },
-            gear: true,
+            items: {
+                include: {
+                    gear: true,
+                    provider: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true
+                        }
+                    },
+                    review: true
+                }
+            },
             payment: true
         },
         take,

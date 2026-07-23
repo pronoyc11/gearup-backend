@@ -12,7 +12,7 @@ model Gear {
     specifications Json             @db.JsonB
     availability   GearAvailability @default(AVAILABLE)
     image          String?          @db.Text
-    rental         RentalOrder[]
+    rentalItems    RentalOrderItem[]
     reviews        Review[]
     createdAt      DateTime         @default(now())
     updatedAt      DateTime         @updatedAt

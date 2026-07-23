@@ -9,6 +9,7 @@ model User {
     address   String?
     gears     Gear[]
     rental    RentalOrder[]
+    rentalItems RentalOrderItem[]
     reviews   Review[]
     // payment   Payment[]
     createdAt DateTime      @default(now())

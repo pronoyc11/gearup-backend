@@ -24,10 +24,13 @@ const rentalDays = (startDate: Date, endDate: Date) => {
 }
 
 const rentalStatusTransition: Record<RentalStatus, RentalStatus[]> = {
-    PLACED: [RentalStatus.CANCELLED, RentalStatus.CONFIRMED],
+    PLACED: [RentalStatus.CANCELLED, RentalStatus.CONFIRMED, RentalStatus.PARTIALLY_CONFIRMED],
+    PARTIALLY_CONFIRMED: [RentalStatus.CANCELLED, RentalStatus.CONFIRMED],
     CONFIRMED: [RentalStatus.PAID],
-    PAID: [RentalStatus.PICKED_UP],
-    PICKED_UP: [RentalStatus.RETURNED, RentalStatus.LATE_RETURN],
+    PAID: [RentalStatus.PICKED_UP, RentalStatus.PARTIALLY_PICKED_UP],
+    PARTIALLY_PICKED_UP: [RentalStatus.PICKED_UP, RentalStatus.PARTIALLY_RETURNED],
+    PICKED_UP: [RentalStatus.RETURNED, RentalStatus.LATE_RETURN, RentalStatus.PARTIALLY_RETURNED],
+    PARTIALLY_RETURNED: [RentalStatus.RETURNED, RentalStatus.LATE_RETURN],
     RETURNED: [],
     LATE_RETURN: [],
     CANCELLED: []
@@ -35,6 +38,54 @@ const rentalStatusTransition: Record<RentalStatus, RentalStatus[]> = {
 
 export const validateRentalStatusTransition = (currentStatus: RentalStatus, nextStatus: RentalStatus) => {
     return rentalStatusTransition[currentStatus].includes(nextStatus);
+}
+
+const rentalItemStatusTransition: Record<RentalStatus, RentalStatus[]> = {
+    PLACED: [RentalStatus.CONFIRMED],
+    PARTIALLY_CONFIRMED: [],
+    CONFIRMED: [RentalStatus.PAID],
+    PAID: [RentalStatus.PICKED_UP],
+    PARTIALLY_PICKED_UP: [],
+    PICKED_UP: [RentalStatus.RETURNED, RentalStatus.LATE_RETURN],
+    PARTIALLY_RETURNED: [],
+    RETURNED: [],
+    LATE_RETURN: [],
+    CANCELLED: []
+}
+
+export const validateRentalItemStatusTransition = (currentStatus: RentalStatus, nextStatus: RentalStatus) => {
+    return rentalItemStatusTransition[currentStatus].includes(nextStatus);
+}
+
+const deriveOrderStatusFromItems = (itemStatuses: RentalStatus[], paymentSucceeded = false) => {
+    if (itemStatuses.length === 0) {
+        return RentalStatus.PLACED;
+    }
+    if (itemStatuses.every((status) => status === RentalStatus.CANCELLED)) {
+        return RentalStatus.CANCELLED;
+    }
+    if (itemStatuses.every((status) => status === RentalStatus.RETURNED || status === RentalStatus.LATE_RETURN)) {
+        return RentalStatus.RETURNED;
+    }
+    if (itemStatuses.some((status) => status === RentalStatus.RETURNED || status === RentalStatus.LATE_RETURN)) {
+        return RentalStatus.PARTIALLY_RETURNED;
+    }
+    if (itemStatuses.every((status) => status === RentalStatus.PICKED_UP)) {
+        return RentalStatus.PICKED_UP;
+    }
+    if (itemStatuses.some((status) => status === RentalStatus.PICKED_UP)) {
+        return RentalStatus.PARTIALLY_PICKED_UP;
+    }
+    if (paymentSucceeded && itemStatuses.every((status) => status === RentalStatus.PAID)) {
+        return RentalStatus.PAID;
+    }
+    if (itemStatuses.every((status) => status === RentalStatus.CONFIRMED || status === RentalStatus.PAID)) {
+        return itemStatuses.every((status) => status === RentalStatus.PAID) ? RentalStatus.PAID : RentalStatus.CONFIRMED;
+    }
+    if (itemStatuses.some((status) => status === RentalStatus.CONFIRMED || status === RentalStatus.PAID)) {
+        return RentalStatus.PARTIALLY_CONFIRMED;
+    }
+    return RentalStatus.PLACED;
 }
 
 const returnNewStartAndEndDate = (days: number) => {
@@ -57,7 +108,9 @@ function isValidISODate(dateString: string): boolean {
 export const rentalUtls = {
     rentalDays,
     validateRentalStatusTransition,
+    validateRentalItemStatusTransition,
     rentalStatusTransition,
+    deriveOrderStatusFromItems,
     returnNewStartAndEndDate,
     isValidISODate
 } 

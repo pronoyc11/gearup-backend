@@ -6,7 +6,7 @@ import { sendResponse } from "../../../utils/sendResponse";
 
 
 const getMyRentalOrders = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const result = await rentalProviderService.viewProviderRentals(req.user?.id as string);
+    const result = await rentalProviderService.viewProviderRentals(req.user?.id as string, req.user?.role === "ADMIN");
     sendResponse(res, {
         success: true,
         statusCode: 200,
@@ -15,12 +15,12 @@ const getMyRentalOrders = catchAsync(async (req: Request, res: Response, next: N
     })
 })
 
-const updateRentalOrderStatus = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const updateRentalOrderItemStatus = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
     const providerId = req.user?.id;
-    const { orderId } = req.params;
+    const { itemId } = req.params;
 
-    const updatedOrder = await rentalProviderService.updateRentalOrderStatus(orderId as string, providerId as string, req.body);
+    const updatedOrder = await rentalProviderService.updateRentalOrderItemStatus(itemId as string, providerId as string, req.user?.role === "ADMIN", req.body);
 
 
     sendResponse(res, {
@@ -34,7 +34,7 @@ const updateRentalOrderStatus = catchAsync(async (req: Request, res: Response, n
 const rentalOrderDetails = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const id = req.user?.id;
     const orderId = req.params.orderId;
-    const myRental = await rentalProviderService.rentalOrderDetails(orderId as string, id as string);
+    const myRental = await rentalProviderService.rentalOrderDetails(orderId as string, id as string, req.user?.role === "ADMIN");
     sendResponse(res, {
         success: true,
         statusCode: 200,
@@ -44,6 +44,6 @@ const rentalOrderDetails = catchAsync(async (req: Request, res: Response, next: 
 })
 export const rentalProviderController = {
     getMyRentalOrders,
-    updateRentalOrderStatus,
+    updateRentalOrderItemStatus,
     rentalOrderDetails
 }

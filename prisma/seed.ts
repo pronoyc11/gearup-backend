@@ -5,6 +5,7 @@ import { PrismaClient } from "./generated/prisma/client";
 // import type { GearCreateManyInput } from "./generated/prisma/client";
 import {
     GearAvailability,
+    PaymentProvider,
     PaymentStatus,
     RentalStatus,
     UserRole,
@@ -598,43 +599,80 @@ const seedGearItems = [
 const seedRentals = [
     {
         customerEmail: "ayesha@gearup.test",
-        gearTitle: "Concept2 RowErg",
-        quantity: "1",
-        totalAmount: "5400.00",
+        items: [
+            {
+                gearTitle: "Concept2 RowErg",
+                quantity: 1,
+                status: RentalStatus.RETURNED,
+                review: { rating: 5, comment: "Clean rower, smooth pickup, and perfect for our group session." },
+            },
+            {
+                gearTitle: "Adidas UEFA Match Football",
+                quantity: 4,
+                status: RentalStatus.RETURNED,
+                review: { rating: 5, comment: "The footballs arrived match-ready and held air perfectly." },
+            },
+        ],
         startDate: "2026-07-01",
         endDate: "2026-07-04",
         status: RentalStatus.RETURNED,
-        payment: { amount: "5400.00", transactionId: "seed_txn_rowerg_001", status: PaymentStatus.SUCCESS, paidAt: "2026-06-30T10:30:00.000Z" },
-        review: { rating: 5, comment: "Clean machine, smooth pickup, and perfect for our group session." },
+        payment: { transactionId: "seed_txn_multi_returned_001", status: PaymentStatus.SUCCESS, paidAt: "2026-06-30T10:30:00.000Z" },
     },
     {
         customerEmail: "tanvir@gearup.test",
-        gearTitle: "Adidas UEFA Match Football",
-        quantity: "4",
-        totalAmount: "1200.00",
+        items: [
+            {
+                gearTitle: "Portable Football Goal Pair",
+                quantity: 1,
+                status: RentalStatus.PAID,
+            },
+            {
+                gearTitle: "Spalding NBA Basketball",
+                quantity: 2,
+                status: RentalStatus.PAID,
+            },
+        ],
         startDate: "2026-07-05",
         endDate: "2026-07-07",
         status: RentalStatus.PAID,
-        payment: { amount: "1200.00", transactionId: "seed_txn_football_002", status: PaymentStatus.SUCCESS, paidAt: "2026-07-04T15:15:00.000Z" },
+        payment: { transactionId: "seed_txn_multi_paid_002", status: PaymentStatus.SUCCESS, paidAt: "2026-07-04T15:15:00.000Z" },
     },
     {
         customerEmail: "nabila@gearup.test",
-        gearTitle: "Portable Basketball Hoop",
-        quantity: "1",
-        totalAmount: "2700.00",
+        items: [
+            {
+                gearTitle: "Portable Basketball Hoop",
+                quantity: 1,
+                status: RentalStatus.CONFIRMED,
+            },
+            {
+                gearTitle: "Kookaburra Kahuna Cricket Bat",
+                quantity: 2,
+                status: RentalStatus.CONFIRMED,
+            },
+        ],
         startDate: "2026-07-10",
         endDate: "2026-07-13",
         status: RentalStatus.CONFIRMED,
-        payment: { amount: "2700.00", transactionId: "seed_txn_hoop_003", status: PaymentStatus.PENDING, paidAt: null },
+        payment: { transactionId: "seed_txn_multi_pending_003", status: PaymentStatus.PENDING, paidAt: null },
     },
     {
         customerEmail: "ayesha@gearup.test",
-        gearTitle: "Kookaburra Kahuna Cricket Bat",
-        quantity: "2",
-        totalAmount: "2000.00",
+        items: [
+            {
+                gearTitle: "Bowflex SelectTech 552 Adjustable Dumbbells",
+                quantity: 1,
+                status: RentalStatus.CONFIRMED,
+            },
+            {
+                gearTitle: "Yonex Astrox Badminton Racket Set",
+                quantity: 2,
+                status: RentalStatus.PLACED,
+            },
+        ],
         startDate: "2026-07-15",
         endDate: "2026-07-17",
-        status: RentalStatus.PLACED,
+        status: RentalStatus.PARTIALLY_CONFIRMED,
     },
 ] as const;
 
@@ -642,6 +680,7 @@ async function main() {
     console.log("Resetting seedable tables...");
     await prisma.review.deleteMany();
     await prisma.payment.deleteMany();
+    await prisma.rentalOrderItem.deleteMany();
     await prisma.rentalOrder.deleteMany();
     await prisma.gear.deleteMany();
     await prisma.category.deleteMany();
@@ -709,21 +748,56 @@ async function main() {
     console.log(`Creating ${seedRentals.length} sample rental orders...`);
     for (const rental of seedRentals) {
         const customer = userByEmail.get(rental.customerEmail);
-        const gear = gearByTitle.get(rental.gearTitle);
 
-        if (!customer || !gear) {
-            throw new Error(`Missing customer or gear for rental: ${rental.gearTitle}`);
+        if (!customer) {
+            throw new Error(`Missing customer for rental: ${rental.customerEmail}`);
         }
+
+        const startDate = new Date(`${rental.startDate}T00:00:00.000Z`);
+        const endDate = new Date(`${rental.endDate}T23:59:59.000Z`);
+        const rentalDays = Math.floor((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+
+        const rentalItems = rental.items.map((item) => {
+            const gear = gearByTitle.get(item.gearTitle);
+
+            if (!gear) {
+                throw new Error(`Missing gear for rental: ${item.gearTitle}`);
+            }
+
+            const subtotal = Number(gear.pricePerDay) * item.quantity * rentalDays;
+
+            return {
+                gear,
+                quantity: item.quantity,
+                pricePerDay: gear.pricePerDay,
+                subtotal,
+                status: item.status,
+                review: "review" in item ? item.review : undefined,
+            };
+        });
+
+        const totalAmount = rentalItems.reduce((sum, item) => sum + Number(item.subtotal), 0);
 
         const createdRental = await prisma.rentalOrder.create({
             data: {
                 customerId: customer.id,
-                gearId: gear.id,
-                quantity: rental.quantity,
-                totalAmount: rental.totalAmount,
-                startDate: new Date(`${rental.startDate}T00:00:00.000Z`),
-                endDate: new Date(`${rental.endDate}T23:59:59.000Z`),
+                totalAmount,
+                startDate,
+                endDate,
                 status: rental.status,
+                items: {
+                    create: rentalItems.map((item) => ({
+                        gearId: item.gear.id,
+                        providerId: item.gear.providerId,
+                        quantity: item.quantity,
+                        pricePerDay: item.pricePerDay,
+                        subtotal: item.subtotal,
+                        status: item.status,
+                    })),
+                },
+            },
+            include: {
+                items: true,
             },
         });
 
@@ -731,7 +805,8 @@ async function main() {
             await prisma.payment.create({
                 data: {
                     orderId: createdRental.id,
-                    amount: rental.payment.amount,
+                    amount: totalAmount,
+                    provider: PaymentProvider.STRIPE,
                     transactionId: rental.payment.transactionId,
                     status: rental.payment.status,
                     paidAt: rental.payment.paidAt ? new Date(rental.payment.paidAt) : null,
@@ -739,14 +814,18 @@ async function main() {
             });
         }
 
-        if ("review" in rental && rental.review) {
+        for (const [index, item] of rentalItems.entries()) {
+            if (!item.review) {
+                continue;
+            }
+            const createdItem = createdRental.items[index];
             await prisma.review.create({
                 data: {
                     customerId: customer.id,
-                    gearId: gear.id,
-                    rentalOrderId: createdRental.id,
-                    rating: rental.review.rating,
-                    comment: rental.review.comment,
+                    gearId: item.gear.id,
+                    rentalOrderItemId: createdItem.id,
+                    rating: item.review.rating,
+                    comment: item.review.comment,
                 },
             });
         }

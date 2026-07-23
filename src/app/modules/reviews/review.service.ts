@@ -7,30 +7,30 @@ const createReview = async (customerId: string, payload: IReview) => {
     if (!payload) {
         throw new Error("Must provide review!");
     }
-    const { gearId,
-        rentalOrderId,
+    const {
+        rentalOrderItemId,
         rating,
         comment, } = payload;
 
-    if (!rating || !gearId || !rentalOrderId) {
+    if (!rating || !rentalOrderItemId) {
         throw new Error("Some required fields are missing!");
     }
-    const rental = await prisma.rentalOrder.findUnique({
+    const rentalItem = await prisma.rentalOrderItem.findUnique({
         where: {
-            id: rentalOrderId
+            id: rentalOrderItemId
+        },
+        include: {
+            rentalOrder: true
         }
     })
-    if (!rental) {
-        throw new Error("You didn't rent yet.");
+    if (!rentalItem) {
+        throw new Error("You didn't rent this item yet.");
     }
-    if (rental.customerId !== customerId) {
+    if (rentalItem.rentalOrder.customerId !== customerId) {
         throw new Error("You don't own this rental!")
     }
-    if (rental.status !== 'RETURNED') {
+    if (rentalItem.status !== 'RETURNED' && rentalItem.status !== 'LATE_RETURN') {
         throw new Error("You have to return the product first, Then review.")
-    }
-    if (rental.gearId !== gearId) {
-        throw new Error("Uh oh, This is not the item you rented!")
     }
     if (rating > 5 || rating < 1) {
         throw new Error("You can only rate out of 5.");
@@ -38,7 +38,10 @@ const createReview = async (customerId: string, payload: IReview) => {
     const createdReview = await prisma.review.create({
         data: {
             customerId,
-            ...payload
+            gearId: rentalItem.gearId,
+            rentalOrderItemId,
+            rating,
+            comment: comment ?? null
         }
     });
 

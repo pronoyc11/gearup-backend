@@ -7,8 +7,8 @@ model Review {
     gearId String
     gear   Gear   @relation(fields: [gearId], references: [id], onDelete: Cascade)
 
-    rentalOrderId String      @unique
-    rentalOrder   RentalOrder @relation(fields: [rentalOrderId], references: [id], onDelete: Cascade)
+    rentalOrderItemId String          @unique
+    rentalOrderItem   RentalOrderItem @relation(fields: [rentalOrderItemId], references: [id], onDelete: Cascade)
 
     rating  Int
     comment String?

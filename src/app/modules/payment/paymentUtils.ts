@@ -58,7 +58,17 @@ const updatePaymentWithWebhook = async (session: Stripe.Checkout.Session) => {
             data: {
                 status: RentalStatus.PAID,
                 startDate: flag ? newStartAndEndDate.startDate : rentalOrder.startDate,
-                endDate: flag ? newStartAndEndDate.endDate : rentalOrder.endDate
+                endDate: flag ? newStartAndEndDate.endDate : rentalOrder.endDate,
+                items: {
+                    updateMany: {
+                        where: {
+                            status: RentalStatus.CONFIRMED
+                        },
+                        data: {
+                            status: RentalStatus.PAID
+                        }
+                    }
+                }
             }
         });
     })

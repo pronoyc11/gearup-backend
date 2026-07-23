@@ -1,4 +1,4 @@
-import { PaymentStatus, RentalStatus } from "../../../../prisma/generated/prisma/enums"
+import { PaymentProvider, PaymentStatus } from "../../../../prisma/generated/prisma/enums"
 import config from "../../config"
 import { prisma } from "../../lib/prisma"
 import { stripe } from "../../lib/stripe"
@@ -13,7 +13,16 @@ const createCheckoutSession = async (rentalOrderId: string, userId: string, user
                 id: rentalOrderId
             },
             include: {
-                gear: true
+                items: {
+                    include: {
+                        gear: true,
+                        provider: {
+                            select: {
+                                name: true
+                            }
+                        }
+                    }
+                }
             }
         })
         if (!rentalOrderExists) {
@@ -23,7 +32,7 @@ const createCheckoutSession = async (rentalOrderId: string, userId: string, user
             throw new Error("Not your order");
         }
         if (rentalOrderExists.status !== "CONFIRMED") {
-            throw new Error(`Your rental status is ${rentalOrderExists.status}`);
+            throw new Error(`All providers must confirm the order before payment. Current rental status is ${rentalOrderExists.status}`);
         }
 
 
@@ -51,8 +60,10 @@ const createCheckoutSession = async (rentalOrderId: string, userId: string, user
                         currency: "bdt",
 
                         product_data: {
-                            name: rentalOrderExists.gear.title,
-                            description: `Rental from ${rentalOrderExists.startDate.toDateString()} to ${rentalOrderExists.endDate.toDateString()}`,
+                            name: `GearUp rental order ${rentalOrderExists.id}`,
+                            description: rentalOrderExists.items
+                                .map((item) => `${item.gear.title} x ${item.quantity} (${item.provider.name})`)
+                                .join(", "),
                         },
 
                         // Stripe expects the amount in cents
@@ -66,7 +77,6 @@ const createCheckoutSession = async (rentalOrderId: string, userId: string, user
             metadata: {
                 rentalOrderId: rentalOrderExists.id,
                 customerId: rentalOrderExists.customerId,
-                gearId: rentalOrderExists.gearId,
             },
 
             success_url: `${config.client_url}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
@@ -79,6 +89,7 @@ const createCheckoutSession = async (rentalOrderId: string, userId: string, user
                 data: {
                     orderId: rentalOrderExists.id,
                     amount: rentalOrderExists.totalAmount,
+                    provider: PaymentProvider.STRIPE,
                     status: PaymentStatus.PENDING,
                     transactionId: session.id
                 }
@@ -117,7 +128,26 @@ const viewOwnPayment = async (customerId: string, isAdmin: boolean) => {
     let myPayments;
 
     if (isAdmin) {
-        myPayments = await prisma.payment.findMany();
+        myPayments = await prisma.payment.findMany({
+            include: {
+                order: {
+                    include: {
+                        items: {
+                            include: {
+                                gear: true,
+                                provider: {
+                                    select: {
+                                        id: true,
+                                        name: true,
+                                        email: true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
     } else {
         myPayments = await prisma.payment.findMany({
             where: {
@@ -128,7 +158,18 @@ const viewOwnPayment = async (customerId: string, isAdmin: boolean) => {
             include: {
                 order: {
                     include: {
-                        gear: true
+                        items: {
+                            include: {
+                                gear: true,
+                                provider: {
+                                    select: {
+                                        id: true,
+                                        name: true,
+                                        email: true
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -146,7 +187,18 @@ const getPaymentDetails = async (paymentId: string, userId: string, isAdmin: boo
         include: {
             order: {
                 include: {
-                    gear: true
+                    items: {
+                        include: {
+                            gear: true,
+                            provider: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    email: true
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

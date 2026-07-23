@@ -1,21 +1,25 @@
 import { RentalStatus } from "../../../../../prisma/generated/prisma/enums";
 import { prisma } from "../../../lib/prisma"
-import { validateRentalStatusTransition } from "../../../utils/rentalUtils";
+import { rentalUtls, validateRentalItemStatusTransition } from "../../../utils/rentalUtils";
 
 
 
-const viewProviderRentals = async (providerId: string) => {
+const viewProviderRentals = async (providerId: string, isAdmin: boolean) => {
 
-    const allRentals = await prisma.rentalOrder.findMany({
-        where: {
-            gear: {
-                providerId
-            }
-        },
+    const allRentals = await prisma.rentalOrderItem.findMany({
+        where: isAdmin ? {} : { providerId },
         include: {
-            customer: true,
             gear: true,
-            payment: true
+            rentalOrder: {
+                include: {
+                    customer: {
+                        omit: {
+                            password: true
+                        }
+                    },
+                    payment: true
+                }
+            }
         }
     });
     if (allRentals.length === 0) {
@@ -24,28 +28,56 @@ const viewProviderRentals = async (providerId: string) => {
     return allRentals;
 }
 
-const updateRentalOrderStatus = async (orderId: string, providerId: string, payload: { status: RentalStatus }) => {
+const syncOrderStatus = async (tx: any, rentalOrderId: string) => {
+    const items = await tx.rentalOrderItem.findMany({
+        where: {
+            rentalOrderId
+        },
+        select: {
+            status: true
+        }
+    });
+
+    const payment = await tx.payment.findUnique({
+        where: {
+            orderId: rentalOrderId
+        }
+    });
+
+    const status = rentalUtls.deriveOrderStatusFromItems(
+        items.map((item: { status: RentalStatus }) => item.status),
+        payment?.status === "SUCCESS"
+    );
+
+    await tx.rentalOrder.update({
+        where: {
+            id: rentalOrderId
+        },
+        data: {
+            status
+        }
+    });
+}
+
+const updateRentalOrderItemStatus = async (itemId: string, providerId: string, isAdmin: boolean, payload: { status: RentalStatus }) => {
 
     const transactionResult = await prisma.$transaction(async (tx) => {
-        const rentalOrderExists = await tx.rentalOrder.findUnique({
+        const rentalOrderItemExists = await tx.rentalOrderItem.findUnique({
             where: {
-                id: orderId
+                id: itemId
             },
             include: {
-                gear: {
-                    select: {
-                        providerId: true
-                    }
-                }
+                rentalOrder: true,
+                gear: true
             }
         });
 
-        if (!rentalOrderExists) {
-            throw new Error("No such order exits on this id");
+        if (!rentalOrderItemExists) {
+            throw new Error("No such order item exits on this id");
         }
 
-        if (rentalOrderExists.gear.providerId !== providerId) {
-            throw new Error("Uh Oh, Not your order.");
+        if (rentalOrderItemExists.providerId !== providerId && !isAdmin) {
+            throw new Error("Uh Oh, Not your order item.");
         }
         if (!payload) {
             throw new Error("Prefered status is required!");
@@ -53,16 +85,20 @@ const updateRentalOrderStatus = async (orderId: string, providerId: string, payl
         if (payload.status === 'PAID') {
             throw new Error("Sorry, You can't manually set the PAID status.")
         }
-        if (!validateRentalStatusTransition(rentalOrderExists.status, payload.status)) {
-            throw new Error(`Can't change the order status from ${rentalOrderExists.status} to ${payload.status}`);
+        if (!validateRentalItemStatusTransition(rentalOrderItemExists.status, payload.status)) {
+            throw new Error(`Can't change the order item status from ${rentalOrderItemExists.status} to ${payload.status}`);
         }
 
-        const updatedOrder = await tx.rentalOrder.update({
+        const updatedOrderItem = await tx.rentalOrderItem.update({
             where: {
-                id: orderId
+                id: itemId
             },
             data: {
                 ...payload
+            },
+            include: {
+                gear: true,
+                rentalOrder: true
             }
         })
 
@@ -70,24 +106,25 @@ const updateRentalOrderStatus = async (orderId: string, providerId: string, payl
             case RentalStatus.CONFIRMED:
                 await tx.gear.update({
                     where: {
-                        id: rentalOrderExists?.gearId
+                        id: rentalOrderItemExists.gearId
                     },
                     data: {
                         stock: {
-                            decrement: Number(rentalOrderExists.quantity)
+                            decrement: rentalOrderItemExists.quantity
                         }
                     }
 
                 })
                 break;
-            case RentalStatus.RETURNED || RentalStatus.LATE_RETURN:
+            case RentalStatus.RETURNED:
+            case RentalStatus.LATE_RETURN:
                 await tx.gear.update({
                     where: {
-                        id: rentalOrderExists?.gearId
+                        id: rentalOrderItemExists.gearId
                     },
                     data: {
                         stock: {
-                            increment: Number(rentalOrderExists.quantity)
+                            increment: rentalOrderItemExists.quantity
                         }
                     }
 
@@ -97,24 +134,33 @@ const updateRentalOrderStatus = async (orderId: string, providerId: string, payl
                 break;
         }
 
-        return updatedOrder;
+        await syncOrderStatus(tx, rentalOrderItemExists.rentalOrderId);
+
+        return updatedOrderItem;
     });
 
     return transactionResult;
 }
-const rentalOrderDetails = async (rentalId: string, userId: string) => {
+const rentalOrderDetails = async (rentalId: string, userId: string, isAdmin: boolean) => {
     const rental = await prisma.rentalOrder.findUnique({
         where: {
             id: rentalId
         },
         include: {
-            gear: {
-                select: {
-                    title: true,
-                    categoryId: true,
-                    stock: true,
-                    availability: true,
-                    providerId: true
+            items: {
+                where: isAdmin ? {} : {
+                    providerId: userId
+                },
+                include: {
+                    gear: true,
+                    provider: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true
+                        }
+                    },
+                    review: true
                 }
             },
             customer: {
@@ -129,13 +175,13 @@ const rentalOrderDetails = async (rentalId: string, userId: string) => {
     if (!rental) {
         throw new Error("No order found on this id!");
     }
-    if (rental.gear.providerId !== userId) {
+    if (!isAdmin && rental.items.length === 0) {
         throw new Error("Uh, oh. Not your rental.");
     }
     return rental;
 }
 export const rentalProviderService = {
     viewProviderRentals,
-    updateRentalOrderStatus,
+    updateRentalOrderItemStatus,
     rentalOrderDetails
 }
